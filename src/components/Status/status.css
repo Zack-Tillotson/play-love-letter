@@ -1,0 +1,6 @@
+.status {
+  line-height: 1.5rem;
+  padding-left: var(--grid-gap, 1rem);
+  padding-right: var(--grid-gap, 1rem);
+  border-bottom: solid 3px #ccc;
+}

@@ -1,0 +1,31 @@
+.game {
+  position: fixed;
+
+  display: grid;
+  width: 100%;
+  height: 100%;
+
+  grid-template:
+    'status  status'
+    'deck    deck-detail'
+    'players players';
+  grid-template-rows: auto auto 100fr;
+  grid-template-columns: auto 100fr;
+
+  grid-gap: var(--grid-gap, 1rem);
+  padding: var(--grid-gap, 1rem);
+  overflow: scroll;
+
+  --card-width: 70px;
+  --card-height: calc(var(--card-width) * 1.4);
+
+  @media (min-width: 1400px) {
+    --card-width: 10vw;
+    --card-overhang: 3vw;
+  }
+}
+
+.status { grid-area: status; }
+.deck { grid-area: deck; }
+.deck-detail { grid-area: deck-detail; }
+.players { grid-area: players; }

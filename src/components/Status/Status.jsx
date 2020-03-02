@@ -1,9 +1,11 @@
 import React from 'react';
 
+import './status.css';
+
 function Status() {
   return (
     <div className="status">
-      Status
+      Round 4: Player 1 is choosing.
     </div>
   );
 }

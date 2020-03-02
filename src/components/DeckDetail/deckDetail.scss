@@ -1,0 +1,34 @@
+.deck-detail {
+  list-style: none;
+  padding: var(--grid-gap, .25rem);
+  margin: 0;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+
+  --deck-circle-size: 2rem;
+
+  @media screen and (orientation: landscape) {
+    --deck-circle-size: 1.7rem;
+  }
+}
+
+.deck-detail li {
+  display: inline-block;
+  line-height: calc(var(--deck-circle-size) - 4px);
+  text-align: center;
+
+  border: solid 2px #ccc;
+  width: var(--deck-circle-size);
+  height: var(--deck-circle-size);
+  margin: .1rem;
+
+  transition: all .5s ease;
+}
+
+.deck-detail li.drawn {
+  border-color: #ccc;
+  background: #ccc;
+  color: #999;
+}

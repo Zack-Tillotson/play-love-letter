@@ -1,0 +1,24 @@
+.deck {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.deck__card {
+  height: var(--card-height, 125px);
+}
+
+.deck__card--rotated {
+  display: none;
+  height: var(--card-width, 85px);
+}
+
+@media screen and (orientation: landscape) {
+  .deck__card--upright {
+    display: none;
+  }
+
+  .deck__card--rotated {
+    display: initial;
+  }
+}
