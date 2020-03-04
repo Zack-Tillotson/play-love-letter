@@ -13,7 +13,7 @@ function* handleCardDrawn({payload: {playerId, duration}}) {
     cardEle.style.transition = 'none'
     cardEle.style.cssText = `left: ${deckEle.offsetLeft}px; top: ${deckEle.offsetTop}px; display: inline-block`
     cardEle.style.transition = ''
-    cardEle.style.cssText = `display: inline-block; left: ${playerEle.offsetLeft}px; top: ${playerEle.offsetTop}px`
+    cardEle.style.cssText = `display: inline-block; left: ${playerEle.offsetLeft + playerEle.offsetWidth / 4}px; top: ${playerEle.offsetTop + 30}px`
 
     setTimeout(() => {
       cardEle.style.display = ''

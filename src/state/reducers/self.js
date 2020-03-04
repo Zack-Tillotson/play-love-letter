@@ -1,7 +1,7 @@
 import types from '../types';
 
 const initialState = {
-  id: 1,
+  id: 0,
 }
 
 function self(state = initialState, action) {

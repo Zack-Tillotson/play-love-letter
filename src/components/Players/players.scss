@@ -29,6 +29,8 @@
     "name score";
   grid-template-rows: auto var(--hand-overhang, calc(var(--card-height, 115px) * .25)) auto auto;
   min-width: calc(2 * var(--card-width, 85px) + 1rem);
+
+  padding: 1rem;
 }
 
 .player-cards {
@@ -59,7 +61,7 @@
 
 .player-cards__hand_card {
   max-height: var(--card-height, 115px);
-  border: solid 2px white;
+  border: solid 2px rgba(0,0,0,0);
 }
 
 .player-cards__hand_card--considered {
@@ -80,8 +82,14 @@
 
 .player-name {
   grid-area: name;
+
+  font-weight: bold;
+  line-height: 2rem;
 }
 
 .player-score {
   grid-area: score;
+
+  color: #666;
+  line-height: 2rem;
 }

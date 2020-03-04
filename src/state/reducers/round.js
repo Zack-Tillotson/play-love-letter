@@ -23,7 +23,7 @@ function round(state = initialState, action) {
       return {
         ...state,
         roundNum,
-        statusMessage: 'Round ready, first player to draw'
+        statusMessage: 'New round, here we go!'
       }
     }
 
@@ -39,7 +39,7 @@ function round(state = initialState, action) {
       return {
         ...state,
         activePlayer: player.id,
-        statusMessage: `Waiting for ${player.name} to act`,
+        statusMessage: `It's ${player.name}'s turn`,
       }
     }
   }

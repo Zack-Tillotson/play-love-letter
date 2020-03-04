@@ -4,7 +4,7 @@ import './deckDetail.scss'
 
 function DeckDetail() {
   return (
-    <ul className="deck-detail" onClick={e => e.target.children[parseInt(Math.random()*16)].classList.toggle('drawn')}>
+    <ul className="deck-detail">
       <li>1</li>
       <li>1</li>
       <li>1</li>

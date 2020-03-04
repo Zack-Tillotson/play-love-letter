@@ -39,7 +39,7 @@ function Players() {
             </div>
             <div className="player-name">{name}</div>
             <div className="player-score">
-              score
+              ♡ ♡ ♡
             </div>
           </div>
         )
