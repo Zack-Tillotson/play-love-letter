@@ -1,15 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Provider} from 'react-redux';
 
 import Game from 'components/Game';
 
-function App() {
+function App({store}) {
   return (
-    <div className="App">
+    <Provider store={store}>
       <Game />
-    </div>
+    </Provider>
   );
 }
 
 export default App;
+

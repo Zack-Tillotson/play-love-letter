@@ -6,6 +6,14 @@
   100% { box-shadow: 0 0 8px green; }
 }
 
+@keyframes considered-card {
+  0% { box-shadow: 0 0 8px yellow; }
+  35% { box-shadow: 0 0 15px goldenrod; }
+  45% { box-shadow: 0 0 9px goldenrod; }
+  85% { box-shadow: 0 0 15px yellow; }
+  100% { box-shadow: 0 0 8px yellow; }
+}
+
 .players {
   display: flex;
   flex-flow: row wrap;
@@ -19,7 +27,7 @@
     "played-cards played-cards"
     ".... ......"
     "name score";
-  grid-template-rows: auto var(--hand-overhang, 50px) auto auto;
+  grid-template-rows: auto var(--hand-overhang, calc(var(--card-height, 115px) * .25)) auto auto;
   min-width: calc(2 * var(--card-width, 85px) + 1rem);
 }
 
@@ -52,6 +60,14 @@
 .player-cards__hand_card {
   max-height: var(--card-height, 115px);
   border: solid 2px white;
+}
+
+.player-cards__hand_card--considered {
+  border-color: yellow;
+  box-shadow: 0px 0px 5px yellow;
+  animation-duration: 6s;
+  animation-name: considered-card;
+  animation-iteration-count: infinite;
 }
 
 .player-cards__hand_card--active {

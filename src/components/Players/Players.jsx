@@ -1,46 +1,41 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
+
+import selector from '../../state/selector'
 
 import './players.scss';
 
-import cardBack from '../../images/card-back.png';
-import cardFront1 from '../../images/card-front-1.png';
-import cardFront2 from '../../images/card-front-2.png';
-import cardFront3 from '../../images/card-front-3.png';
-import cardFront6 from '../../images/card-front-6.png';
-import cardFront7 from '../../images/card-front-7.png';
-
-const players = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
-const playedCards = [cardFront1, cardFront2, cardFront3];
+import Card from '../Card';
 
 function Players() {
+  const {players, self, round} = useSelector(selector)
+
   return (
     <div className="players">
-      {players.map((name, playerIndex) => {
+      {players.map((player) => {
+        const {name, playedCards, hand} = player
+        const isSelf = player.id === self.id
+        const isActive = round.activePlayer === player.id
         return (
-          <div key={name} className="player">
+          <div key={name} className="player" id={`player-${player.id}`}>
             <div className="player-cards">
               {playedCards.map((card, index) => (
-                <img
+                <Card
                   key={index}
-                  src={card}
-                  className="player-cards__played-card"
+                  value={card}
+                  className="player-cards__played_card"
+                  isVisible={isSelf}
                   style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
               ))}
             </div>
             <div className="player-hand">
-              {playerIndex !== 1 && (
-                <img src={cardBack} className="player-cards__hand_card" />
-              )}
-              {playerIndex === 1 && (
-                <React.Fragment>
-                  <img
-                    src={cardFront6}
-                    className="player-cards__hand_card player-cards__hand_card--active" />
-                  <img
-                    src={cardFront7}
-                    className="player-cards__hand_card player-cards__hand_card--active" />
-                </React.Fragment>
-              )}
+              {hand.map((card, index) => (
+                <Card
+                  key={index}
+                  value={card}
+                  className={`player-cards__hand_card ${isActive ? 'player-cards__hand_card--considered' : ''} ${isSelf && isActive ? 'player-cards__hand_card--active' : ''}`}
+                  isVisible={isSelf} />
+              ))}
             </div>
             <div className="player-name">{name}</div>
             <div className="player-score">

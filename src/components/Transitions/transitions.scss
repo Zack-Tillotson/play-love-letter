@@ -1,0 +1,11 @@
+.transition-item {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 750ms ease-in;
+
+  &.drawn-card {
+    max-height: var(--card-height, 115px);
+  }
+}

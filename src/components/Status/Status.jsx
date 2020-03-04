@@ -1,11 +1,16 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
+
+import selector from '../../state/selector'
 
 import './status.css';
 
 function Status() {
+  const {roundNum, statusMessage} = useSelector(selector).round;
+
   return (
     <div className="status">
-      Round 4: Player 1 is choosing.
+      Round {roundNum}: {statusMessage}
     </div>
   );
 }
