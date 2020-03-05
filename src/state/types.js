@@ -1,11 +1,15 @@
 export default {
   eventReceived: 'EVENT_QUEUE/eventReceieved',
-  eventHandled: 'EVENT_QUEUE/eventHandled',
+  eventHandleStart: 'EVENT_QUEUE/eventHandle/start',
+  eventHandleEnd: 'EVENT_QUEUE/eventHandle/end',
 
-  gameReadied: 'GameReadied',
+  gameReadied: 'EVENT/GameReadied',
+  cardPlayed: 'EVENT/CardPlayed',
+
   cardDrawn: 'CardDrawn',
   roundReadied: 'RoundReadied',
   playerReadied: 'PlayerReadied',
+  playerPlaysCard: 'PlayerPlaysCard',
 
   transitionCardDrawn: 'TRANSITION/cardDrawn',
 }

@@ -1,42 +1,57 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, select, fork, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import types from '../types';
 import actions from '../actions';
-import {selectEventQueue} from '../selector';
+import selector from '../selector';
+import {INGAME} from '../constants'
+import gameSagas from './game'
 
-// A game is initialized with players when all players are ready. The
-// result should be the game is set up and the first round starts
-function* handleGameInitialization({data: {players, deck, startPlayer}}) {
-  yield put(actions.gameReadied(players, deck, startPlayer));
-  return true;
+function* handleGameInitialization(data) {
+  return yield gameSagas.implGameInit(data)
+}
+
+function* handleCardPlayed(data) {
+  return yield gameSagas.implCardPlay(data)
 }
 
 export function* popQSaga() {
-  const eventQueue = yield select(selectEventQueue);
+  const {eventQueue} = (yield select(selector));
   if(!eventQueue.length) {
-    console.log('No event in event queue');
+    console.warn('No event in event queue');
     return;
   }
 
   const nextEvent = eventQueue[0];
+  yield put(actions.eventHandleStart(nextEvent));
 
   switch(nextEvent.eventType) {
-    case 'game_started':
-      if(yield handleGameInitialization(nextEvent)) {
-        return yield put(actions.eventHandled(nextEvent));
-      } else {
-        console.warn('Unable to handle event', nextEvent);
-      }
+    case 'game_started': {
+      yield handleGameInitialization(nextEvent.data)
       break;
-    default:
-  }
+    }
 
-  console.warn('Event not handled', nextEvent);
+    case 'card_played': {
+      yield handleCardPlayed(nextEvent.data)
+      break;
+    }
+
+
+    default:
+      console.warn('Event not handled', nextEvent);
+  }
+  yield put(actions.eventHandleEnd(nextEvent));
 }
 
-// function* initListener() {
-//   yield takeEvery(action => {
-//     action.type === types.eventReceived, types.gameReadied, handleGameInitialization);
-// }
+function* popQIfReady() {
+  const state = (yield select(selector));
+  const {eventQueue, game: {inTransition}} = state;
+  if(!inTransition && eventQueue.length) {
+    yield fork(popQSaga)
+  }
+}
 
-export default []
+function* initListener() {
+  yield takeEvery('*', popQIfReady)
+}
+
+export default [initListener]

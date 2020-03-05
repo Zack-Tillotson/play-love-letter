@@ -15,7 +15,7 @@ function Players() {
       {players.map((player) => {
         const {name, playedCards, hand} = player
         const isSelf = player.id === self.id
-        const isActive = round.activePlayer === player.id
+        const isActive = round.activePlayer === player.id && player.hand.length === 2
         return (
           <div key={name} className="player" id={`player-${player.id}`}>
             <div className="player-cards">
@@ -23,7 +23,7 @@ function Players() {
                 <Card
                   key={index}
                   value={card}
-                  className="player-cards__played_card"
+                  className="player-cards__played-card"
                   isVisible={isSelf}
                   style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
               ))}

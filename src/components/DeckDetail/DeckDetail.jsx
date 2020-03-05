@@ -1,8 +1,11 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
+import selector from '../../state/selector'
 
 import './deckDetail.scss'
 
 function DeckDetail() {
+  const {deck} = useSelector(selector).round;
   return (
     <ul className="deck-detail">
       <li>1</li>

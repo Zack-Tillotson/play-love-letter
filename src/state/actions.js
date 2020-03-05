@@ -1,19 +1,29 @@
 import types from './types';
 
-// Shared Events (server events)
+// Event Queue actions (server events)
 function eventReceived(eventType, data) {
   return {type: types.eventReceived, payload: {eventType, data}}
 }
 
-function eventHandled(event) {
-  return {type: types.eventHandled, payload: {event}}
+function eventHandleStart(event) {
+  return {type: types.eventHandleStart, payload: {event}}
 }
 
-// Local events (game events)
+function eventHandleEnd(event) {
+  return {type: types.eventHandleEnd, payload: {event}}
+}
+
+// Event actions (game events)
 
 function gameReadied(players, deck, activePlayer) {
-  return {type: types.gameReadied, payload: {players, deck, activePlayer}}
+  return {type: types.gameReadied, payload: {players, deck, activePlayer}, meta: {inTransition: true}}
 }
+
+function cardPlayed(value, target) {
+  return {type: types.cardPlayed, payload: {value, target}, meta: {inTransition: true}}
+}
+
+// Internal event
 
 function cardDrawn(playerId, value) {
   return {type: types.cardDrawn, payload: {playerId, value}}
@@ -27,6 +37,10 @@ function playerReadied(player) {
   return {type: types.playerReadied, payload: {player}}
 }
 
+function playerPlaysCard(payload) {
+  return {type: types.playerPlaysCard, payload}
+}
+
 // Transition events
 
 function transitionCardDrawn(playerId, duration) {
@@ -35,12 +49,14 @@ function transitionCardDrawn(playerId, duration) {
 
 export default {
   eventReceived,
-  eventHandled,
+  eventHandleStart,
+  eventHandleEnd,
 
   gameReadied,
   cardDrawn,
   roundReadied,
   playerReadied,
+  playerPlaysCard,
 
   transitionCardDrawn,
 }

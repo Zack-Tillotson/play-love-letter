@@ -8,8 +8,8 @@ import './deck.css';
 function Deck() {
   return (
     <div className="deck" id="game-deck">
-      <img src={deckImage} className="deck__card deck__card--upright" />
-      <img src={deckImageRotated} className="deck__card deck__card--rotated" />
+      <img src={deckImage} alt="The Deck" className="deck__card deck__card--upright" />
+      <img src={deckImageRotated} alt="The Deck" className="deck__card deck__card--rotated" />
     </div>
   );
 }

@@ -19,7 +19,7 @@ function round(state = initialState, action) {
     }
 
     case types.roundReadied: {
-      const {roundNum, activePlayer} = action.payload
+      const {roundNum} = action.payload
       return {
         ...state,
         roundNum,
@@ -42,6 +42,16 @@ function round(state = initialState, action) {
         statusMessage: `It's ${player.name}'s turn`,
       }
     }
+
+    case types.playerPlaysCard: {
+      const {player, value} = action.payload;
+      return {
+        ...state,
+        statusMessage: `${player.name} plays ${value}`,
+      }
+    }
+
+    default:
   }
   return state;
 }

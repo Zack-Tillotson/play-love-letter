@@ -13,7 +13,7 @@ function eventQueue(state = initialState, action) {
     case types.eventReceived: {
       return [...state, action.payload];
     }
-    case types.eventHandled: {
+    case types.eventHandleStart: {
       if(state?.[0] === action.payload.event) {
         return state.slice(1);
       }

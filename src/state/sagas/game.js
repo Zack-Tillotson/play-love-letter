@@ -4,11 +4,18 @@ import types from '../types';
 import actions from '../actions'
 import selector from '../selector'
 
-const duration = 750
+function withTransitionEndedMeta(action) {
+  return {...action, meta: {...(action.meta || {}), inTransition: false}}
+}
+
+const duration = 50
 
 // A game is initialized with players when all players are ready. The
 // result should be the game is set up and the first round starts
-function* handleGameInitialization({payload: {players, activePlayer}}) {
+function* implGameInit({players, deck, startPlayer}) {
+  yield put(actions.gameReadied(players, deck, startPlayer))
+  yield delay(duration)
+
   // draw a card for each player
   for(let i = 0 ; i < players.length; i++) {
 
@@ -20,31 +27,36 @@ function* handleGameInitialization({payload: {players, activePlayer}}) {
     yield put(actions.cardDrawn(player.id, nextCard))
   }
 
-  yield handleRoundInitialization({payload: {roundNum: 1, activePlayer}})
+  yield handleRoundInitialization({roundNum: 1, activePlayer: startPlayer})
 }
 
-function* handleRoundInitialization({payload: {roundNum, activePlayer}}) {
+function* handleRoundInitialization({roundNum, activePlayer}) {
   yield delay(duration)
   yield put(actions.roundReadied(1, activePlayer))
 
-  yield handlePlayerInitialization({payload: {playerId: activePlayer}})
+  yield handlePlayerInitialization({playerId: activePlayer})
 }
 
-function* handlePlayerInitialization({payload: {playerId}}) {
+function* handlePlayerInitialization({playerId}) {
   yield delay(duration)
   yield put(actions.transitionCardDrawn(playerId, duration))
   yield delay(duration)
 
   const nextCard = (yield select(selector)).round.deck[0]
-  console.log('player init', (yield select(selector)).round, playerId)
   yield put(actions.cardDrawn(playerId, nextCard))
 
   const player = (yield select(selector)).players.find(player => player.id === playerId)
-  yield put(actions.playerReadied(player))
+  yield put(withTransitionEndedMeta(actions.playerReadied(player)))
 }
 
-function* initListener() {
-  yield takeEvery(types.gameReadied, handleGameInitialization);
+function* implCardPlay({playerId, value, target}) {
+  const player = (yield select(selector)).players.find(p => p.id === playerId)
+  yield put(actions.playerPlaysCard({player, value}))
+  yield delay(duration)
+
 }
 
-export default [initListener]
+export default {
+  implGameInit,
+  implCardPlay,
+}
