@@ -1,7 +1,7 @@
 .status {
-  line-height: 1.5rem;
-  padding-left: var(--grid-gap, 1rem);
-  padding-right: var(--grid-gap, 1rem);
-  border-bottom: solid 3px #ac300c;
+  text-align: center;
+  font-size: 1.5rem;
   font-weight: bold;
+  background: white;
+  border-radius: 5px;
 }

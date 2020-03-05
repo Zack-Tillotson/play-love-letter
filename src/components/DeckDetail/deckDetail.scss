@@ -14,7 +14,7 @@
   }
 }
 
-.deck-detail li {
+.deck-detail__item {
   display: inline-block;
   line-height: calc(var(--deck-circle-size) - 4px);
   text-align: center;
@@ -28,7 +28,7 @@
   transition: all .5s ease;
 }
 
-.deck-detail li.drawn {
+.deck-detail__item--played {
   border-color: #ccc;
   background: #ccc;
   color: #999;

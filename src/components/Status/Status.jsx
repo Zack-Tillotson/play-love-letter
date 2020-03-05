@@ -10,7 +10,7 @@ function Status() {
 
   return (
     <div className="status">
-      Round {roundNum}: {statusMessage}
+      {statusMessage}
     </div>
   );
 }

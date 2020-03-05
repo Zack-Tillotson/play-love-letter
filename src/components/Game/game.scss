@@ -4,8 +4,8 @@
   min-height: 100vh;
 
   grid-template:
-    'status  status'
     'deck    deck-detail'
+    'status  status'
     'players players';
   grid-template-rows: auto auto 100fr;
   grid-template-columns: auto 100fr;
