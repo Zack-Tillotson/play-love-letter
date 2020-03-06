@@ -24,7 +24,7 @@ function Players() {
                   key={index}
                   value={card}
                   className="player-cards__played-card"
-                  isVisible={isSelf}
+                  isVisible={true}
                   style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
               ))}
             </div>
