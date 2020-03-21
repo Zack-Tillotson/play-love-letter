@@ -1,22 +1,29 @@
 import React, {useState} from 'react';
 import {Provider} from 'react-redux';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 import Game from 'components/Game'
 import Landing from 'components/Landing'
 
-import {PREGAME, INGAME} from './state/constants'
+import actions from './state/actions'
 
 function App({store}) {
-  const [isPregame, updateStatus] = useState(true)
-
   return (
     <Provider store={store}>
-      {isPregame && (
-        <Landing onJoin={() => updateStatus(false)} />
-      )}
-      {!isPregame && (
-        <Game />
-      )}
+      <BrowserRouter>
+        <Switch>
+          <Route path="/game/">
+            <Game />
+          </Route>
+          <Route path="/">
+            <Landing />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </Provider>
   );
 }

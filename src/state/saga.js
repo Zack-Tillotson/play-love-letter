@@ -1,5 +1,5 @@
-import session from './sagas/session';
-import game from './sagas/game';
+import events from './sagas/events';
+import session from'./sagas/session'
 import transitions from'./sagas/transitions'
 
-export default [...session, ...transitions]
+export default [...events, ...session, ...transitions]

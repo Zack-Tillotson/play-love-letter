@@ -1,57 +1,43 @@
 import { call, put, select, fork, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import types from '../types';
-import actions from '../actions';
-import selector from '../selector';
-import {INGAME} from '../constants'
+import database from '../database'
+
+import types from '../types'
+import actions from '../actions'
+import selector from '../selector'
+import {PREGAME, INGAME} from '../constants'
 import gameSagas from './game'
 
-function* handleGameInitialization(data) {
-  return yield gameSagas.implGameInit(data)
-}
+import store from '../../store'; // xxx 
 
-function* handleCardPlayed(data) {
-  return yield gameSagas.implCardPlay(data)
-}
+const DEFAULT_GAME_ID = 'id'
 
-export function* popQSaga() {
-  const {eventQueue} = (yield select(selector));
-  if(!eventQueue.length) {
-    console.warn('No event in event queue');
-    return;
+function* handleMount() {
+  const {id} = (yield select()).game
+  const path = `game/${id}`
+
+  const meta = yield database.get(id, 'meta')
+
+  if(!meta || !meta.host) {
+    const uid = (yield call(database.getAuth)).getUid()
+    yield call(database.set, id, 'meta', {host: uid, status: PREGAME})
   }
 
-  const nextEvent = eventQueue[0];
-  yield put(actions.eventHandleStart(nextEvent));
-
-  switch(nextEvent.eventType) {
-    case 'game_started': {
-      yield handleGameInitialization(nextEvent.data)
-      break;
-    }
-
-    case 'card_played': {
-      yield handleCardPlayed(nextEvent.data)
-      break;
-    }
-
-
-    default:
-      console.warn('Event not handled', nextEvent);
-  }
-  yield put(actions.eventHandleEnd(nextEvent));
+  yield database.watch(id, 'meta', data => store.dispatch(actions.dataReceived(path, data))) // xxx
 }
 
-function* popQIfReady() {
-  const state = (yield select(selector));
-  const {eventQueue, game: {inTransition}} = state;
-  if(!inTransition && eventQueue.length) {
-    yield fork(popQSaga)
+function* handleGameData() {
+  const {id, host} = (yield select()).game
+  
+  if(!host) {
+    const uid = (yield call(database.getAuth)).getUid()
+    yield call(database.put, id, 'meta', {host: uid, status: PREGAME})
   }
 }
 
 function* initListener() {
-  yield takeEvery('*', popQIfReady)
+  yield takeEvery(types.interactionMount, handleMount)
+  yield takeEvery(types.dataReceived, handleGameData)
 }
 
 export default [initListener]

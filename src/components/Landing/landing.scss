@@ -59,7 +59,7 @@
   .landing__button {
     text-align: center;
 
-    button {
+    button, a {
       background: darkred;
       color: white;
       padding: 1rem;
@@ -75,6 +75,10 @@
         display: inline-block;
         width: auto;
       }
+    }
+    
+    a:link, a:visited {
+      text-decoration: none;
     }
   }
 }

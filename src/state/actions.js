@@ -1,5 +1,10 @@
 import types from './types';
 
+// Data received (from db) 
+function dataReceived(path, data) {
+  return {type: types.dataReceived, payload: {path, data}}
+}
+
 // Event Queue actions (server events)
 function eventReceived(eventType, data) {
   return {type: types.eventReceived, payload: {eventType, data}}
@@ -21,6 +26,16 @@ function gameReadied(players, deck, activePlayer) {
 
 function cardPlayed(value, target) {
   return {type: types.cardPlayed, payload: {value, target}, meta: {inTransition: true}}
+}
+
+// UI Interaction
+
+function interactionClick(id, value) {
+  return {type: types.interactionClick, payload: {id, value}}
+}
+
+function interactionMount(id, value) {
+  return {type: types.interactionMount, payload: {id, value}}
 }
 
 // Internal event
@@ -48,11 +63,18 @@ function transitionCardDrawn(playerId, duration) {
 }
 
 export default {
+  dataReceived,
+  
   eventReceived,
   eventHandleStart,
   eventHandleEnd,
 
   gameReadied,
+  cardPlayed,
+
+  interactionClick,
+  interactionMount,
+
   cardDrawn,
   roundReadied,
   playerReadied,

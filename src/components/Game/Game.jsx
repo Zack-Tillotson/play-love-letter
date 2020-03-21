@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 import selector from '../../state/selector'
+import actions from '../../state/actions'
 
 import Status from 'components/Status';
 import Deck from 'components/Deck';
@@ -17,7 +18,10 @@ import './game.scss';
 function Game() {
 
   const {state} = useSelector(selector).game;
-  if(state !== INGAME) return false; // XXX
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(actions.interactionMount('Game'))
+  }, [dispatch])
 
   return (
     <div className="game">
