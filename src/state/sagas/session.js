@@ -10,34 +10,37 @@ import gameSagas from './game'
 
 import store from '../../store'; // xxx 
 
-const DEFAULT_GAME_ID = 'id'
-
 function* handleMount() {
-  const {id} = (yield select()).game
-  const path = `game/${id}`
 
-  const meta = yield database.get(id, 'meta')
+  const meta = yield database.get('meta')
+  const uid = (yield call(database.getAuth)).getUid()
 
   if(!meta || !meta.host) {
-    const uid = (yield call(database.getAuth)).getUid()
-    yield call(database.set, id, 'meta', {host: uid, status: PREGAME})
+    yield call(database.set, 'meta', {host: uid, state: PREGAME})
   }
 
-  yield database.watch(id, 'meta', data => store.dispatch(actions.dataReceived(path, data))) // xxx
+  yield database.watch('meta', data => store.dispatch(actions.dataReceived('meta', data, {uid}))) // current game host
+  yield database.watch('names', data => store.dispatch(actions.dataReceived('names', data, {uid}))) // all names
+  yield database.watch('players', data => store.dispatch(actions.dataReceived('players', data, {uid}))) // current game names
 }
 
-function* handleGameData() {
-  const {id, host} = (yield select()).game
-  
-  if(!host) {
-    const uid = (yield call(database.getAuth)).getUid()
-    yield call(database.put, id, 'meta', {host: uid, status: PREGAME})
+function* handleClick({payload: {id, value}}) {
+
+  switch(id) {
+
+    case 'selfName': {
+      const uid = (yield call(database.getAuth)).getUid()
+      yield call(database.set, 'names', {[uid]: value})
+
+      const players = (yield select()).players
+      if(!players.includes(uid)) yield call(database.set, 'players', [...players, uid])
+    }
   }
 }
 
 function* initListener() {
   yield takeEvery(types.interactionMount, handleMount)
-  yield takeEvery(types.dataReceived, handleGameData)
+  yield takeEvery(types.interactionClick, handleClick)
 }
 
 export default [initListener]

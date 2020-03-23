@@ -24,20 +24,23 @@ function* getAuth() {
 	return fb.auth()
 }
 
-function* watch(gameId, dataPath, callback) {
+function* watch(dataPath, callback) {
 	yield authPromise
-	return fb.firestore().collection('game').doc(gameId).collection('data').doc(dataPath).onSnapshot(snapshot => callback(snapshot.data()))
+	return fb.firestore().collection('game').doc(dataPath).onSnapshot(snapshot => callback(snapshot.data()))
 }
 
 
-function* get(gameId, dataPath) {
+function* get(dataPath) {
 	yield authPromise
-	return fb.firestore().collection('game').doc(gameId).collection('data').doc(dataPath).get()
+	const promise = yield fb.firestore().collection('game').doc(dataPath).get()
+	return promise.data()
 }
 
-function* set(gameId, dataPath, value) {
+function* set(dataPath, value) {
 	yield authPromise
-	return fb.firestore().collection('game').doc(gameId).collection('data').doc(dataPath).set(value)
+	const data = (yield get(dataPath)) || {}
+	const result = yield fb.firestore().collection('game').doc(dataPath).set({...data, ...value})
+	return result
 }
 
 export default {

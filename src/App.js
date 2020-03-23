@@ -6,7 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import Game from 'components/Game'
+import GameMonitor from 'components/Game/GameMonitor'
 import Landing from 'components/Landing'
 
 import actions from './state/actions'
@@ -17,7 +17,7 @@ function App({store}) {
       <BrowserRouter>
         <Switch>
           <Route path="/game/">
-            <Game />
+            <GameMonitor />
           </Route>
           <Route path="/">
             <Landing />

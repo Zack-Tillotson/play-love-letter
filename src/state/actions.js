@@ -1,8 +1,8 @@
 import types from './types';
 
 // Data received (from db) 
-function dataReceived(path, data) {
-  return {type: types.dataReceived, payload: {path, data}}
+function dataReceived(path, data, meta) {
+  return {type: types.dataReceived, payload: {path, data}, meta}
 }
 
 // Event Queue actions (server events)
