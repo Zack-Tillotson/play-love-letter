@@ -14,14 +14,16 @@ function* handleMount() {
 
   const meta = yield database.get('meta')
   const uid = (yield call(database.getAuth)).getUid()
+  const savedName = localStorage.getItem('preferredName')
 
   if(!meta || !meta.host) {
-    yield call(database.set, 'meta', {host: uid, state: PREGAME})
+    yield call(database.set, 'meta', {host: uid, state: PREGAME, lobby: [{uid, name: savedName || 'Host'}]})
+  } else {
+    const isInLobby = meta.lobby.find(player => player.uid === uid)
+    if(!isInLobby) yield call(database.set, 'meta', {lobby: [...meta.lobby, {uid, name: savedName || 'Player'}]})
   }
 
   yield database.watch('meta', data => store.dispatch(actions.dataReceived('meta', data, {uid}))) // current game host
-  yield database.watch('names', data => store.dispatch(actions.dataReceived('names', data, {uid}))) // all names
-  yield database.watch('players', data => store.dispatch(actions.dataReceived('players', data, {uid}))) // current game names
 }
 
 function* handleClick({payload: {id, value}}) {
@@ -30,10 +32,20 @@ function* handleClick({payload: {id, value}}) {
 
     case 'selfName': {
       const uid = (yield call(database.getAuth)).getUid()
-      yield call(database.set, 'names', {[uid]: value})
+      const {lobby} = (yield select()).game
+      const newLobby = lobby.map(player => player.uid !== uid ? player : {...player, name: value})
+      yield call(database.set, 'meta', {lobby: newLobby})
+      localStorage.setItem('preferredName', value)
+    }
 
-      const players = (yield select()).players
-      if(!players.includes(uid)) yield call(database.set, 'players', [...players, uid])
+    case 'removeLobbyPlayer': {
+      const {lobby, host} = (yield select()).game
+      const newLobby = lobby.filter(player => player.uid !== value)
+      const firstNonHost = lobby.find(player => player.uid !== host)
+
+      const newHost = host !== value ? host : (firstNonHost || {}).uid
+
+      yield call(database.set, 'meta', {host: newHost, lobby: newLobby})
     }
   }
 }

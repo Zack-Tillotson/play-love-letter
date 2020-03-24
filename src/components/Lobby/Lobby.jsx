@@ -9,13 +9,12 @@ import logo from '../../images/logo.png'
 import './lobby.scss';
 
 function Lobby() {
-  const {isHosting} = useSelector(s=>s).game
+  const {isHosting, lobby} = useSelector(s=>s).game
   const {name, uid} = useSelector(s=>s).self
-  const {players} = useSelector(s=>s)
-  
+
   const dispatch = useDispatch()
 
-  const [isEditable, updateEditable] = useState(!name)
+  const [isEditable, updateEditable] = useState(name === 'Player')
   const [nameInputValue, updateNameInputValue] = useState(name)
 
   const handleSubmit = () => {
@@ -29,6 +28,10 @@ function Lobby() {
     } else {
       updateEditable(true)
     }
+  }
+
+  const handleRemove = uid => {
+    dispatch(actions.interactionClick('removeLobbyPlayer', uid))
   }
 
   return (
@@ -46,7 +49,7 @@ function Lobby() {
           <div className="lobby__body">
             <p>The game is being set up, ask your friends to join!</p>
             <div className="lobby__name-container">
-              <label htmlFor="name-input">Enter your name: </label>
+              <label htmlFor="name-input">Update your name</label>
               <input 
                 id="name-input" 
                 type="text" 
@@ -60,13 +63,23 @@ function Lobby() {
                 <div className="name-input__warning">Your name must be less than 10 letters long</div>
               )}
             </div>
+            <h2 className="lobby__players-header">{lobby.length} Players (2 min, 6 max)</h2>
             <ol className="lobby__player-list">
-              {players.forEach(player => (
-                <li key={player.uid}>
-                  {player.name}
-                  {player.uid === uid && (<button>X</button>)}
-                </li>
-              ))}              
+              {new Array(6).fill(0).map((_, index) => {
+                if(lobby.length < index + 1) {
+                  return (<li key={index} className="player-list__item player-list__item--empty">Invite a friend...</li>)
+                }
+
+                const player = lobby[index]
+                return (
+                  <li key={player.uid} className={'player-list__item player-list__item--filled' + (player.uid === uid ? ' player-list__item--self' : '')}>
+                    {player.name}
+                    {(isHosting || player.uid === uid) && (
+                      <button onClick={() => handleRemove(player.uid)}>×</button>
+                    )}
+                  </li>
+                )
+              })}          
             </ol>
             {isHosting && (
               <div className="lobby__controls">
@@ -74,7 +87,7 @@ function Lobby() {
               </div>
             )}
             {!isHosting && (
-              <div className="lobby__controls">
+              <div className="lobby__controls lobby__controls--non-host">
                 Waiting for host to start game...
               </div>
             )}
