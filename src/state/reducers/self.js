@@ -2,7 +2,7 @@ import types from '../types';
 
 const initialState = {
   name: '',
-  uid: '',
+  id: '',
 }
 
 function self(state = initialState, action) {
@@ -10,13 +10,13 @@ function self(state = initialState, action) {
 		case types.dataReceived: {
 
 			if(action.payload.path === 'meta') {
-				const {meta: {uid}, payload: {path, data}} = action
-				const self = data.lobby.find(player => player.uid === uid)
+				const {meta: {id}, payload: {path, data}} = action
+				const self = data.lobby.find(player => player.id === id)
 
 				return {
 					...state,
 					name: self ? self.name : '',
-					uid,
+					id,
 				}
 			}
 		}

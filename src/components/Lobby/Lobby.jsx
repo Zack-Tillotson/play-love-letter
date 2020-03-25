@@ -10,7 +10,7 @@ import './lobby.scss';
 
 function Lobby() {
   const {isHosting, lobby} = useSelector(s=>s).game
-  const {name, uid} = useSelector(s=>s).self
+  const {name, id} = useSelector(s=>s).self
 
   const dispatch = useDispatch()
 
@@ -30,8 +30,12 @@ function Lobby() {
     }
   }
 
-  const handleRemove = uid => {
-    dispatch(actions.interactionClick('removeLobbyPlayer', uid))
+  const handleRemove = id => {
+    dispatch(actions.interactionClick('removeLobbyPlayer', id))
+  }
+
+  const handleStartGame = () => {
+    dispatch(actions.interactionClick('startGame'))
   }
 
   return (
@@ -72,10 +76,10 @@ function Lobby() {
 
                 const player = lobby[index]
                 return (
-                  <li key={player.uid} className={'player-list__item player-list__item--filled' + (player.uid === uid ? ' player-list__item--self' : '')}>
+                  <li key={player.id} className={'player-list__item player-list__item--filled' + (player.id === id ? ' player-list__item--self' : '')}>
                     {player.name}
-                    {(isHosting || player.uid === uid) && (
-                      <button onClick={() => handleRemove(player.uid)}>×</button>
+                    {(isHosting || player.id === id) && (
+                      <button onClick={() => handleRemove(player.id)}>×</button>
                     )}
                   </li>
                 )
@@ -83,7 +87,7 @@ function Lobby() {
             </ol>
             {isHosting && (
               <div className="lobby__controls">
-                <button>Start Game</button>
+                <button onClick={() => handleStartGame()}>Start Game</button>
               </div>
             )}
             {!isHosting && (

@@ -23,19 +23,22 @@ function DeckDetail() {
   }, {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0})
 
   return (
-    <ul className="deck-detail">
-      {Object.keys(cardCounts).reduce((lis, rank) => ([
-        ...lis,
-        ...new Array(cardCounts[rank]).fill(0).map((_, index) => (
-          <li
-            key={`${rank} + ${index}`}
-            className={'deck-detail__item ' + (index < playedCounts[rank] ? 'deck-detail__item--played' : '')}
-          >
-            {rank}
-          </li>
-        ))
-      ]), [])}
-    </ul>
+    <div className="deck-detail">
+      <h3>Cards left in deck (or your hand)</h3>
+      <ul className="deck-detail">
+        {Object.keys(cardCounts).reduce((lis, rank) => ([
+          ...lis,
+          ...new Array(cardCounts[rank]).fill(0).map((_, index) => (
+            <li
+              key={`${rank} + ${index}`}
+              className={'deck-detail__item ' + (index < playedCounts[rank] ? 'deck-detail__item--played' : '')}
+            >
+              {rank}
+            </li>
+          ))
+        ]), [])}
+      </ul>
+    </div>
   );
 }
 

@@ -19,17 +19,19 @@ function game(state = initialState, action) {
           if(!data) return initialState
 
           const {state: gameState, host, lobby} = data;
-          const {uid} = action.meta;
+          const {id} = action.meta;
+          
           return {
             ...state,
             state: gameState,
             host,
-            isHosting: uid === host,
+            isHosting: id === host,
             lobby,
           }
         }
       }
     }
+    break;
     case types.gameReadied: {
       return {
         ...initialState,

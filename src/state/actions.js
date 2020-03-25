@@ -6,9 +6,6 @@ function dataReceived(path, data, meta) {
 }
 
 // Event Queue actions (server events)
-function eventReceived(eventType, data) {
-  return {type: types.eventReceived, payload: {eventType, data}}
-}
 
 function eventHandleStart(event) {
   return {type: types.eventHandleStart, payload: {event}}
@@ -65,7 +62,6 @@ function transitionCardDrawn(playerId, duration) {
 export default {
   dataReceived,
   
-  eventReceived,
   eventHandleStart,
   eventHandleEnd,
 

@@ -10,8 +10,12 @@ const initialState = []
 
 function eventQueue(state = initialState, action) {
   switch(action.type) {
-    case types.eventReceived: {
-      return [...state, action.payload];
+    case types.dataReceived: {
+      if(action.payload.path === 'events') {
+        const {data = {}} = action.payload
+        const events = Object.values(data)
+        return events
+      }
     }
     case types.eventHandleStart: {
       if(state?.[0] === action.payload.event) {

@@ -43,9 +43,15 @@ function* set(dataPath, value) {
 	return result
 }
 
+function* del(dataPath) {
+	yield authPromise
+	yield fb.firestore().collection('game').doc(dataPath).delete()
+}
+
 export default {
 	getAuth,
 	watch,
 	get,
 	set,
+	del,
 }
