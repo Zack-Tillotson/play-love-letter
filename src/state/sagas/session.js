@@ -32,9 +32,14 @@ function* handleClick({payload: {id, value}}) {
   switch(id) {
 
     case 'reset_game': {
+      const id = (yield call(database.getAuth)).getUid()
+
       yield call(database.del, 'events')
-      yield call(database.set, 'meta', {state: 'pregame'})
+      yield call(database.del, 'meta')
+      yield call(database.set, 'meta',  {host: id, state: PREGAME, lobby: [{id, name: 'Host'}, {id: 'fake1', name: 'Alice'}, {id: 'fake2', name: 'Bob'}]})
+
     }
+    break;
 
     case 'selfName': {
       const id = (yield call(database.getAuth)).getUid()
@@ -45,6 +50,7 @@ function* handleClick({payload: {id, value}}) {
       yield call(database.set, 'meta', {lobby: newLobby})
       localStorage.setItem('preferredName', value)
     }
+    break;
 
     case 'removeLobbyPlayer': {
       const {lobby, host} = (yield select()).game
@@ -55,6 +61,7 @@ function* handleClick({payload: {id, value}}) {
 
       yield call(database.set, 'meta', {host: newHost, lobby: newLobby})
     }
+    break;
 
     case 'startGame': {
       const {lobby} = (yield select()).game
@@ -72,6 +79,8 @@ function* handleClick({payload: {id, value}}) {
         }
       }])
     }
+    break;
+    
   }
 }
 

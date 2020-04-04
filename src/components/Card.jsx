@@ -22,19 +22,22 @@ const cardImg = {
   8: cardFront8,
 }
 
-function Card({value, isVisible, className, id, style}) {
-  let src = cardImg[value];
+function Card({value, isVisible, className, id, style, onClick}) {
 
-  if(!isVisible) {
-    src = cardImg.back;
+  const handleClick = () => {
+    onClick(value)
   }
 
-  return <img
-    className={className}
-    id={id}
-    src={src}
-    alt={isVisible ? `Card Rank ${value}` : `Card showing back`}
-    style={style} />
+  const props = {
+    className,
+    id,
+    style,
+    onClick: handleClick,
+    src: isVisible ? cardImg[value] : cardImg.back,
+    alt: isVisible ? `Card Rank ${value}` : `Card showing back`,
+  }
+
+  return <img {...props} />
 
 }
 

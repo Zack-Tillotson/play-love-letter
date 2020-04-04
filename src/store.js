@@ -22,32 +22,5 @@ document.getElementById('gameInit').addEventListener('click', () => {
     )
   );
 })
-document.getElementById('play1').addEventListener('click', () => {
-  store.dispatch(
-    actions.eventReceived(
-      'card_played',
-      {
-        value: 1,
-        target: {
-          player: 1,
-          rank: 5,
-        },
-        playerId: 0,
-      },
-    )
-  );
-})
-
-document.getElementById('play2').addEventListener('click', () => {
-  store.dispatch(
-    actions.eventReceived(
-      'card_played',
-      {
-        value: 4,
-        playerId: 1,
-      },
-    )
-  );
-})
 
 export default store;

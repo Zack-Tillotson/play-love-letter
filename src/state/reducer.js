@@ -6,6 +6,7 @@ import game from './reducers/game';
 import history from './reducers/history';
 import eventQueue from './reducers/eventQueue';
 import self from './reducers/self';
+import cardAction from './reducers/cardAction';
 
 const rootReducer = combineReducers({
   round,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   history,
   eventQueue,
   self,
+  cardAction,
 });
 
 export default rootReducer;

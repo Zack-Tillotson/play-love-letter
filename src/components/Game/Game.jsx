@@ -1,5 +1,9 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
 
+import selector from '../../state/selector'
+
+import CardSelection from 'components/CardSelection'
 import Status from 'components/Status';
 import Deck from 'components/Deck';
 import DeckDetail from 'components/DeckDetail';
@@ -11,13 +15,22 @@ import {INGAME} from '../../state/constants'
 import './game.scss';
 
 function Game() {
+  const {isOpen} = useSelector(selector).cardAction
+
+  const containerClass = isOpen ? 'card-selection' : 'game'
+
   return (
-    <div className="game">
-      <Status />
-      <Deck />
-      <DeckDetail />
-      <Players />
-      <Transitions />
+    <div className={containerClass}>
+    	{isOpen && <CardSelection />}
+    	{!isOpen && (
+    		<React.Fragment>
+		      <Status />
+		      <Deck />
+		      <DeckDetail />
+		      <Players />
+		      <Transitions />
+		    </React.Fragment>
+		)}
     </div>
   );
 }

@@ -8,7 +8,7 @@ function withTransitionEndedMeta(action) {
   return {...action, meta: {...(action.meta || {}), inTransition: false}}
 }
 
-const duration = 750
+const duration = 1; //750
 
 // A game is initialized with players when all players are ready. The
 // result should be the game is set up and the first round starts

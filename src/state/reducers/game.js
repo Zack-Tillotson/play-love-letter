@@ -34,7 +34,7 @@ function game(state = initialState, action) {
     break;
     case types.gameReadied: {
       return {
-        ...initialState,
+        ...state,
         state: INGAME,
       }
     }
