@@ -20,7 +20,7 @@ function Game() {
   const containerClass = isOpen ? 'card-selection' : 'game'
 
   return (
-    <div className={containerClass}>
+    <div className={'base-layout ' + containerClass}>
     	{isOpen && <CardSelection />}
     	{!isOpen && (
     		<React.Fragment>

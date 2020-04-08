@@ -40,6 +40,7 @@ function Players() {
             <div className="player-hand">
               {hand.map((card, index) => (
                 <Card
+                  size="square"
                   key={index}
                   value={card}
                   className={`player-cards__hand_card ${isActive ? 'player-cards__hand_card--considered' : ''} ${isSelf && isActive ? 'player-cards__hand_card--active' : ''}`}

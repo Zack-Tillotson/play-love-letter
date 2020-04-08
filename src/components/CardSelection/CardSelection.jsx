@@ -6,6 +6,8 @@ import actions from '../../state/actions'
 
 import Card from '../Card'
 
+import './cardSelection.scss'
+
 function CardSelection() {
   const {cardAction: {cardValue}, round, self} = useSelector(selector)
   const isActive = round.activePlayer === self.id
@@ -18,9 +20,8 @@ function CardSelection() {
 
 	return (
     <Fragment>
-      <h2>Card Value {cardValue}</h2>
-      <button onClick={handleClose}>X</button>
-  		<Card value={cardValue} isVisible={true} />
+      <button className="card-selection__close" onClick={handleClose}>X</button>
+  		<Card value={cardValue} isVisible={true} className="card-selection__card" />
       {isActive && (
         <div className="card-selection__form">
           {[1, 2, 3, 5, 6].includes(cardValue) && (

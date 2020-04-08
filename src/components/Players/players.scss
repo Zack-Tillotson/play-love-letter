@@ -1,15 +1,15 @@
 @keyframes active-card {
   0% { box-shadow: 0 0 8px green; }
-  35% { box-shadow: 0 0 15px #2f9f17; }
-  45% { box-shadow: 0 0 9px #2f9f17; }
+  35% { box-shadow: 0 0 15px lightgreen; }
+  45% { box-shadow: 0 0 9px lightgreen; }
   85% { box-shadow: 0 0 15px green; }
   100% { box-shadow: 0 0 8px green; }
 }
 
 @keyframes considered-card {
   0% { box-shadow: 0 0 8px yellow; }
-  35% { box-shadow: 0 0 15px goldenrod; }
-  45% { box-shadow: 0 0 9px goldenrod; }
+  35% { box-shadow: 0 0 15px brown; }
+  45% { box-shadow: 0 0 9px brown; }
   85% { box-shadow: 0 0 15px yellow; }
   100% { box-shadow: 0 0 8px yellow; }
 }
@@ -67,7 +67,7 @@
 .player-cards__hand_card--considered {
   border-color: yellow;
   box-shadow: 0px 0px 5px yellow;
-  animation-duration: 6s;
+  animation-duration: 3s;
   animation-name: considered-card;
   animation-iteration-count: infinite;
 }
@@ -75,7 +75,7 @@
 .player-cards__hand_card--active {
   border-color: green;
   box-shadow: 0px 0px 5px yellow;
-  animation-duration: 6s;
+  animation-duration: 3s;
   animation-name: active-card;
   animation-iteration-count: infinite;
 }

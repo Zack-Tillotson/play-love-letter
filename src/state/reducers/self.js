@@ -10,6 +10,9 @@ function self(state = initialState, action) {
 		case types.dataReceived: {
 
 			if(action.payload.path === 'meta') {
+
+				if(!action.payload.data) return state
+
 				const {meta: {id}, payload: {path, data}} = action
 				const self = data.lobby.find(player => player.id === id)
 
