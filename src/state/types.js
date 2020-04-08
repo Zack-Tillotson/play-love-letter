@@ -17,4 +17,5 @@ export default {
   playerPlaysCard: 'PlayerPlaysCard',
 
   transitionCardDrawn: 'TRANSITION/cardDrawn',
+  transitionCardTarget: 'TRANSITION/cardTarget',
 }

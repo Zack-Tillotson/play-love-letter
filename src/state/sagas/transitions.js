@@ -21,8 +21,37 @@ function* handleCardDrawn({payload: {playerId, duration}}) {
   } catch(e) {}
 }
 
+function* handlePlayerTargetting({payload: {eventType, cardValue, eleId, position}}) {
+
+  try {
+
+    const cardEle = document.getElementById('t-targetting-card')
+    const arrowEle = document.getElementById('t-targetting-arrow-line')
+
+    if(eventType === 'active-card-drag-end') {
+      cardEle.style.cssText = ''
+      arrowEle.removeAttribute('x1')
+      arrowEle.removeAttribute('x2')
+      arrowEle.removeAttribute('y1')
+      arrowEle.removeAttribute('y2')
+      return;
+    }
+
+    const sourcePos = document.getElementById(eleId).getBoundingClientRect()
+
+    cardEle.style.cssText = `transition: none; left: ${sourcePos.left}px; top: ${sourcePos.top}px; width: ${sourcePos.width}px; display: inline-block` 
+    arrowEle.setAttribute('x1', sourcePos.left + sourcePos.width / 2)
+    arrowEle.setAttribute('y1', sourcePos.top + sourcePos.height / 2)
+    arrowEle.setAttribute('x2', position.x)
+    arrowEle.setAttribute('y2', position.y)
+  } catch(e) {
+    console.error(e)
+  }
+}
+
 function* watchCardDrawn() {
   yield takeEvery(types.transitionCardDrawn, handleCardDrawn)
+  yield takeEvery(types.transitionCardTarget, handlePlayerTargetting)
 }
 
 export default [watchCardDrawn]

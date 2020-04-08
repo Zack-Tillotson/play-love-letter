@@ -33,6 +33,10 @@
   padding: 1rem;
 }
 
+.player--targettable {
+  box-shadow: 0px 0px 15px orange;
+}
+
 .player-cards {
   grid-area: played-cards;
   position: relative;

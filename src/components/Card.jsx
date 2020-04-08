@@ -44,10 +44,28 @@ const sqCardImg = {
   8: cardFrontSq8,
 }
 
-function Card({value, isVisible, className, id, style, size, onClick = () => {}}) {
+function Card({value, isVisible, className, id, style, size, onClick, onDrag, onDragEnd, ...rest}) {
 
   const handleClick = () => {
     onClick(value)
+  }
+
+  const handleDragStart = event => {}
+  const handleDrag = event => {
+    const {clientX: x, clientY: y} = event
+    onDrag('drag', value, event.target, {x,y}, event)
+  }
+  const handleDragEnd = event => {
+    onDragEnd('drag')
+  }
+
+  const handleTouchStart = event => {}
+  const handleTouchMove = event => {
+    const {clientX: x, clientY: y, target} = event.touches[0]
+    onDrag('touchmove', value, target, {x, y}, event)
+  }
+  const handleTouchEnd = event => {
+   onDragEnd('touchmove') 
   }
 
   const imgObj = size === 'square' ? sqCardImg : cardImg;
@@ -57,11 +75,28 @@ function Card({value, isVisible, className, id, style, size, onClick = () => {}}
     id,
     style,
     onClick: handleClick,
+    onDragStart: handleDragStart,
+    onDrag: handleDrag,
+    onDragEnd: handleDragEnd,
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd,
     src: isVisible ? imgObj[value] : imgObj.back,
     alt: isVisible ? `Card Rank ${value}` : `Card showing back`,
   }
 
-  return <img {...props} />
+  if(!onClick) delete props.onClick
+  if(!onDrag) {
+    delete props.onDragStart
+    delete props.onDrag
+    delete props.handleDragEnd
+
+    delete props.onTouchStart
+    delete props.onTouchMove
+    delete props.onTouchEnd
+  }
+
+  return <img {...props} {...rest} />
 
 }
 

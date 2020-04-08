@@ -1,23 +1,20 @@
-.card-selection {
-  display: flex;
-  flex-flow: column nowrap; 
-}
-
 .card-selection__close {
-  display: inline-block;
-  width: 2rem;
-  align-self: flex-end;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 
-  border: none;
-  border-radius: 5px;
-  margin: .5rem;
+  z-index: 1;
 
-  background: darkred;
-  color: white;
-  font-size: 2rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+
+  background: rgba(39,0,0,.8);
 }
 
 .card-selection__card {
-  margin: 1rem;
-  max-width: auto;
+  max-width: calc(100% - 50px);
+  margin: 0 auto;
 }

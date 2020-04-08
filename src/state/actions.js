@@ -59,6 +59,10 @@ function transitionCardDrawn(playerId, duration) {
   return {type: types.transitionCardDrawn, payload: {playerId, duration}}
 }
 
+function transitionCardTarget(eventType, cardValue, eleId, position) {
+  return {type: types.transitionCardTarget, payload: {eventType, cardValue, eleId, position}}
+}
+
 export default {
   dataReceived,
   
@@ -77,4 +81,5 @@ export default {
   playerPlaysCard,
 
   transitionCardDrawn,
+  transitionCardTarget,
 }

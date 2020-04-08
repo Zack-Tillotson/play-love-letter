@@ -1,9 +1,11 @@
 import types from '../types'
 
 const initialState = {
-	isOpen: false,
+	isOpen: false, // See full sized card in detail	
+	isTargetting: false, // Dragging to target player
 	cardValue: 0,
-	selections: [],
+	sourceId: '',
+	currentPosition: null,
 }
 
 function cardAction(state = initialState, action) {
@@ -25,6 +27,26 @@ function cardAction(state = initialState, action) {
 			}
 		}
 		break
+
+		case types.transitionCardTarget: {
+			const {eventType, cardValue, eleId, position} = action.payload
+
+      switch(eventType) {
+        case 'active-card-drag': {
+          return {
+            ...state,
+            isOpen: false,
+            isTargetting: true,
+            cardValue,
+            sourceId: eleId,
+            currentPosition: position,
+          }
+        }
+        case 'active-card-drag-end': {
+          return initialState
+        }
+      }
+		}
 	}
 	return state;
 }

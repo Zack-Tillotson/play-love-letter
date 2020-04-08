@@ -19,25 +19,9 @@ function CardSelection() {
   }
 
 	return (
-    <Fragment>
-      <button className="card-selection__close" onClick={handleClose}>X</button>
-  		<Card value={cardValue} isVisible={true} className="card-selection__card" />
-      {isActive && (
-        <div className="card-selection__form">
-          {[1, 2, 3, 5, 6].includes(cardValue) && (
-            <div className="card-selection-form__target-player">
-              Select a target player
-            </div>
-          )}
-          {[1].includes(cardValue) && (
-            <div className="card-selection-form__target-player">
-              Select a target rank
-            </div>
-          )}
-          <button>Play Card</button>
-        </div>
-      )}
-    </Fragment>
+    <div className="card-selection__close" onClick={handleClose}>
+		  <Card value={cardValue} isVisible={true} className="card-selection__card" />
+    </div>
 	)
 }
 
