@@ -36,7 +36,7 @@ function* handleClick({payload: {id, value}}) {
 
       yield call(database.del, 'events')
       yield call(database.del, 'meta')
-      yield call(database.set, 'meta',  {host: id, state: PREGAME, lobby: [{id, name: 'Host'}, {id: 'fake1', name: 'Alice'}, {id: 'fake2', name: 'Bob'}]})
+      yield call(database.set, 'meta',  {host: id, state: PREGAME, lobby: [{id, name: 'Host'}, {id: 'fake1', name: 'Alice'}, {id: 'fake2', name: 'Bob'}, {id: 'fake3', name: 'Charlie'}, {id: 'fake4', name: 'Dianne'}]})
 
     }
     break;

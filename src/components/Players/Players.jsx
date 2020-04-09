@@ -5,9 +5,10 @@ import throttle from 'lodash.throttle'
 import selector from '../../state/selector'
 import actions from '../../state/actions'
 
-import './players.scss';
+import './players.scss'
 
-import Card from '../Card';
+import Card from '../Card'
+import Persona from '../Persona'
 
 const throttledDispatch = throttle((dispatch, action) => dispatch(action), 50)
 
@@ -19,63 +20,33 @@ function Players() {
     dispatch(actions.interactionClick('active-card', value))
   }
 
-  const handleDrag = (type, value, ele, position, event) => {
-    throttledDispatch(dispatch, actions.transitionCardTarget('active-card-drag', value, ele.id, position)) 
-  }
-
-  const handleDragEnd = (type, value, ele, position, event) => {
-    throttledDispatch.cancel()
-    throttledDispatch(dispatch, actions.transitionCardTarget('active-card-drag-end')) 
-  }
-
   return (
     <div className="players">
-      {players.map((player) => {
-        const {name, playedCards, hand} = player
-        
-        const isSelf = player.id === self.id
-        const isActive = round.activePlayer === player.id && player.hand.length === 2
-        const isVisible = isSelf;
-        const {isTargetting} = cardAction
+      {players
+        .filter(player => player.id !== self.id)
+        .map((player) => {
 
-        return (
-          <div key={name} className={`player ${!isSelf && isTargetting ? ' player--targettable' : ''}`} id={`player-${player.id}`}>
-            <div className="player-cards">
-              {playedCards.map((card, index) => (
-                <Card
-                  key={index}
-                  value={card}
-                  className="player-cards__played-card"
-                  isVisible={true}
-                  style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
-              ))}
-            </div>
-            <div className="player-hand">
-              {hand.map((card, index) => {
-                const cardId = `${player.id}-${index}`
+          const {name, playedCards, hand} = player
+          const isActive = round.activePlayer === player.id && player.hand.length === 2
+          const {isTargetting, cardValue: targetValue} = cardAction
 
-                return (
+          return (
+            <div key={name} className={`player`} id={`player-${player.id}`}>
+              <Persona name={name} score={2} />            
+              <div className="player-cards">
+                {playedCards.map((card, index) => (
                   <Card
-                    size="square"
                     key={index}
-                    id={cardId}
                     value={card}
-                    className={`player-cards__hand_card ${isActive ? 'player-cards__hand_card--considered' : ''} ${isSelf && isActive ? 'player-cards__hand_card--active' : ''}`}
-                    isVisible={isVisible}
-                    draggable={true}
-                    onClick={isVisible ? handleClick : () => {}}
-                    onDrag={isVisible ? handleDrag : undefined}
-                    onDragEnd={isVisible ? handleDragEnd : undefined} />
-                )
-              })}
+                    className={`player-cards__played-card`}
+                    isVisible={true}
+                    style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
+                ))}
+              </div>
             </div>
-            <div className="player-name">{name}</div>
-            <div className="player-score">
-              ♡ ♡ ♡
-            </div>
-          </div>
-        )
-      })}
+          )
+        })
+      }
     </div>
   );
 }

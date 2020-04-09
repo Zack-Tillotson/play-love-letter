@@ -1,18 +1,14 @@
-body {
-  background: rgb(221,221,221);
-  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(221,221,221,1) 22%);
-}
-
 .game {
   display: grid;
   width: 100%;
   min-height: 100vh;
 
   grid-template:
-    'status  status'
-    'deck    deck-detail'
-    'players players';
-  grid-template-rows: auto auto 100fr;
+    "nav     nav"
+    "deck    status"
+    "players players"
+    "self    self";
+  grid-template-rows: auto auto 1fr 1fr;
   grid-template-columns: auto 100fr;
 
   grid-gap: var(--grid-gap, 1rem);
@@ -27,7 +23,19 @@ body {
   }
 }
 
+.game-navigation { grid-area: nav; }
 .status { grid-area: status; }
 .deck { grid-area: deck; }
-.deck-detail { grid-area: deck-detail; }
 .players { grid-area: players; }
+.ownPlayer { grid-area: self; }
+
+.game-navigation {
+  border-bottom: solid 2px #666;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  img {
+    height: 50px;
+    max-width: 100%;
+  }
+}

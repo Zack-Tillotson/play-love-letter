@@ -15,12 +15,4 @@ window.__store__ = store;
 
 saga.forEach(sagaItem => sagaMiddleware.run(sagaItem))
 
-// document.getElementById('gameInit').addEventListener('click', () => {
-//   store.dispatch(
-//     actions.interactionClick(
-//       'reset_game',
-//     )
-//   );
-// })
-
 export default store;

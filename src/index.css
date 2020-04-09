@@ -19,3 +19,8 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+:root {
+  --card-height: 125px;
+  --card-width: 80px;
+}

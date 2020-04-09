@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {
   BrowserRouter,
@@ -11,6 +11,17 @@ import Landing from 'components/Landing'
 
 import actions from './state/actions'
 
+function ResetTheStuffs({store}) {
+  useEffect(() => {
+    store.dispatch(
+      actions.interactionClick(
+        'reset_game',
+      )
+    );
+  }, [])
+  return "it's reset";
+}
+
 function App({store}) {
   return (
     <Provider store={store}>
@@ -18,6 +29,9 @@ function App({store}) {
         <Switch>
           <Route path="/game/">
             <GameMonitor />
+          </Route>
+          <Route path="/reset/">
+            <ResetTheStuffs store={store} />
           </Route>
           <Route path="/">
             <Landing />

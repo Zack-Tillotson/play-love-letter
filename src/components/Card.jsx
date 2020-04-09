@@ -10,16 +10,6 @@ import cardFront6 from '../images/card-front-6.png';
 import cardFront7 from '../images/card-front-7.png';
 import cardFront8 from '../images/card-front-8.png';
 
-import cardBackSq from '../images/card-back-sq.png';
-import cardFrontSq1 from '../images/card-front-sq-1.png';
-import cardFrontSq2 from '../images/card-front-sq-2.png';
-import cardFrontSq3 from '../images/card-front-sq-3.png';
-import cardFrontSq4 from '../images/card-front-sq-4.png';
-import cardFrontSq5 from '../images/card-front-sq-5.png';
-import cardFrontSq6 from '../images/card-front-sq-6.png';
-import cardFrontSq7 from '../images/card-front-sq-7.png';
-import cardFrontSq8 from '../images/card-front-sq-8.png';
-
 const cardImg = {
   back: cardBack,
   1: cardFront1,
@@ -32,19 +22,7 @@ const cardImg = {
   8: cardFront8,
 }
 
-const sqCardImg = {
-  back: cardBackSq,
-  1: cardFrontSq1,
-  2: cardFrontSq2,
-  3: cardFrontSq3,
-  4: cardFrontSq4,
-  5: cardFrontSq5,
-  6: cardFrontSq6,
-  7: cardFrontSq7,
-  8: cardFrontSq8,
-}
-
-function Card({value, isVisible, className, id, style, size, onClick, onDrag, onDragEnd, ...rest}) {
+function Card({value, isVisible, className, id, style, onClick, onDrag, onDragEnd, ...rest}) {
 
   const handleClick = () => {
     onClick(value)
@@ -68,8 +46,6 @@ function Card({value, isVisible, className, id, style, size, onClick, onDrag, on
    onDragEnd('touchmove') 
   }
 
-  const imgObj = size === 'square' ? sqCardImg : cardImg;
-
   const props = {
     className,
     id,
@@ -81,7 +57,7 @@ function Card({value, isVisible, className, id, style, size, onClick, onDrag, on
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
-    src: isVisible ? imgObj[value] : imgObj.back,
+    src: isVisible ? cardImg[value] : cardImg.back,
     alt: isVisible ? `Card Rank ${value}` : `Card showing back`,
   }
 

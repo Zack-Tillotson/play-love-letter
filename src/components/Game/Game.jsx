@@ -5,13 +5,16 @@ import selector from '../../state/selector'
 
 import CardSelection from 'components/CardSelection'
 
-import Status from 'components/Status';
-import Deck from 'components/Deck';
-import DeckDetail from 'components/DeckDetail';
-import Players from 'components/Players';
 import Transitions from 'components/Transitions'
 
+import Status from 'components/Status';
+import Deck from 'components/Deck';
+import Players from 'components/Players';
+import OwnPlayer from 'components/OwnPlayer';
+
 import {INGAME} from '../../state/constants'
+
+import logo from '../../images/logo.png'
 
 import './game.scss';
 
@@ -22,10 +25,14 @@ function Game() {
     <div className={'base-layout game'}>
       <Transitions />
       
-	    <Status />
+	    <nav className="game-navigation">
+        <img src={logo} />
+      </nav>
+
       <Deck />
-      <DeckDetail />
+      <Status />      
       <Players />
+      <OwnPlayer />
 
       {isOpen && <CardSelection />}
     </div>
