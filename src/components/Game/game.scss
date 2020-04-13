@@ -8,18 +8,26 @@
     "deck    status"
     "players players"
     "self    self";
-  grid-template-rows: auto auto 1fr 1fr;
+  grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto 100fr;
 
-  grid-gap: var(--grid-gap, 1rem);
-  padding: var(--grid-gap, 1rem);
+  grid-gap: var(--grid-gap);
+  padding: var(--grid-gap);
 
   --card-width: 70px;
   --card-height: calc(var(--card-width) * 1.4);
 
-  @media (min-width: 1400px) {
+  @media (min-width: 850px) {
     --card-width: 10vw;
     --card-overhang: 3vw;
+  }
+
+  @media (orientation: landscape) {
+    grid-template:
+      "nav nav nav"
+      "deck status players"
+      "self self players";
+    grid-template-columns: auto 1fr auto;
   }
 }
 
@@ -27,7 +35,7 @@
 .status { grid-area: status; }
 .deck { grid-area: deck; }
 .players { grid-area: players; }
-.ownPlayer { grid-area: self; }
+.own-player { grid-area: self; }
 
 .game-navigation {
   border-bottom: solid 2px #666;
@@ -37,5 +45,9 @@
   img {
     height: 50px;
     max-width: 100%;
+
+    @media(orientation: landscape) {
+      height: 25px;
+    }
   }
 }

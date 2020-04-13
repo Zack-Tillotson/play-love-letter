@@ -23,4 +23,5 @@ html {
 :root {
   --card-height: 125px;
   --card-width: 80px;
+  --grid-gap: 5px;
 }

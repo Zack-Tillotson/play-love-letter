@@ -1,0 +1,28 @@
+.own-player {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+}
+
+.own-player__persona {
+  padding: 15px;
+}
+
+.own-player__hand {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.own-player__hand-card {
+  height: auto;
+  width: 100%;
+  grid-row: 1 / 2;
+  background: black;
+}
+
+.own-player__hand-card--first {
+  grid-column: 1 / 4;
+}
+
+.own-player__hand-card--second {
+  grid-column: 3 / 6;
+}
