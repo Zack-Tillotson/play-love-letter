@@ -8,14 +8,16 @@
   z-index: 1;
 
   display: grid;
-  justify-content: center;
-  align-content: center;
+  grid-template: 1fr / 1fr;
+  justify-items: center;
+  align-items: center;
 
   background: rgba(39,0,0,.8);
 }
 
 .card-selection__card {
-  max-width: calc(100% - 50px);
+  max-width: calc(100% - var(--grid-gap));
+  max-height: calc(100% - var(--grid-gap));
   height: auto;
   margin: 0 auto;
 }

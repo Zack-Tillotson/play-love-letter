@@ -24,12 +24,9 @@ function* handleCardDrawn({payload: {playerId, duration}}) {
 function* handlePlayerTargetting({payload: {eventType, cardValue, eleId, position}}) {
 
   try {
-
-    const cardEle = document.getElementById('t-targetting-card')
     const arrowEle = document.getElementById('t-targetting-arrow-line')
 
     if(eventType === 'active-card-drag-end') {
-      cardEle.style.cssText = ''
       arrowEle.removeAttribute('x1')
       arrowEle.removeAttribute('x2')
       arrowEle.removeAttribute('y1')
@@ -38,9 +35,8 @@ function* handlePlayerTargetting({payload: {eventType, cardValue, eleId, positio
     }
 
     const sourcePos = document.getElementById(eleId).getBoundingClientRect()
-    cardEle.style.cssText = `left: ${sourcePos.left}px; top: ${sourcePos.top}px; width: ${sourcePos.width}px; display: inline-block` 
 
-    if([4, 7, 8, 6].includes(cardValue)) return // Don't show the arrow for non-targettable cards
+    if([4, 7, 8].includes(cardValue)) return // Don't show the arrow for non-targettable cards
     
     arrowEle.setAttribute('x1', sourcePos.left + sourcePos.width / 2)
     arrowEle.setAttribute('y1', sourcePos.top + sourcePos.height / 2)

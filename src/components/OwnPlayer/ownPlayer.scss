@@ -14,7 +14,9 @@
 
 .own-player__hand-card {
   height: auto;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
   grid-row: 1 / 2;
   background: black;
 }

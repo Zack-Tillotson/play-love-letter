@@ -1,53 +1,29 @@
 .game {
-  display: grid;
-  width: 100%;
-  min-height: 100vh;
-
+  display: inline-grid;
+  width: 100vw;
+  height: 100vh;
+  
   grid-template:
-    "nav     nav"
     "deck    status"
     "players players"
     "self    self";
-  grid-template-rows: auto auto 1fr auto;
-  grid-template-columns: auto 100fr;
+  grid-template-rows: auto 1fr 1fr;
+  grid-template-columns: auto 1fr;
 
   grid-gap: var(--grid-gap);
   padding: var(--grid-gap);
 
-  --card-width: 70px;
-  --card-height: calc(var(--card-width) * 1.4);
-
-  @media (min-width: 850px) {
-    --card-width: 10vw;
-    --card-overhang: 3vw;
-  }
-
   @media (orientation: landscape) {
     grid-template:
-      "nav nav nav"
       "deck status players"
       "self self players";
-    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 1fr 1fr;
+
   }
 }
 
-.game-navigation { grid-area: nav; }
 .status { grid-area: status; }
 .deck { grid-area: deck; }
 .players { grid-area: players; }
 .own-player { grid-area: self; }
-
-.game-navigation {
-  border-bottom: solid 2px #666;
-  padding-left: 1rem;
-  padding-right: 1rem;
-
-  img {
-    height: 50px;
-    max-width: 100%;
-
-    @media(orientation: landscape) {
-      height: 25px;
-    }
-  }
-}

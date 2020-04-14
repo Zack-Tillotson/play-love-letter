@@ -24,10 +24,6 @@ function Game() {
   return (
     <div className={'base-layout game'}>
       <Transitions />
-      
-	    <nav className="game-navigation">
-        <img src={logo} />
-      </nav>
 
       <Deck />
       <Status />      
