@@ -32,7 +32,8 @@ function Card({value, isVisible, className, id, style, onClick, onDrag, onDragEn
     onClick(value)
   }
 
-  const handleDragStart = event => {}
+  const handleDragStart = event => {
+  }
   const handleDrag = event => {
     const {clientX: x, clientY: y} = event
     onDrag('drag', value, event.target, {x,y}, event)
@@ -51,7 +52,7 @@ function Card({value, isVisible, className, id, style, onClick, onDrag, onDragEn
   }
 
   const props = {
-    className: cn('card', className),
+    className: cn('card', className, {'card--draggable': !!onDrag}),
     id,
     style,
     onClick: handleClick,

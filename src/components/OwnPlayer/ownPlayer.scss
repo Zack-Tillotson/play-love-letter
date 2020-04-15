@@ -19,6 +19,7 @@
   max-height: 100%;
   grid-row: 1 / 2;
   background: black;
+  border: solid 3px #fff0;
 }
 
 .own-player__hand-card--first {
@@ -27,4 +28,16 @@
 
 .own-player__hand-card--second {
   grid-column: 3 / 6;
+}
+
+.own-player__hand_card--playable {
+  border-color: lightgreen;
+}
+
+.own-player__hand_card--targetting {
+  border-color: darkgreen;
+}
+
+.own-player__hand-card--valid-targetting {
+  border-color: blue; 
 }

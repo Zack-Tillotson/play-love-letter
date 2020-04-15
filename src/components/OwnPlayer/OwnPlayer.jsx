@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector, useDispatch, useRef, useEffect} from 'react-redux'
 import throttle from 'lodash.throttle'
 
 import cn from 'classnames'
@@ -11,6 +11,7 @@ import './ownPlayer.scss';
 
 import Card from '../Card';
 import Persona from '../Persona'
+import {isHoverPlayersContainer, getPlayerAtCoordinates} from './utils'
 
 const throttledDispatch = throttle((dispatch, action) => dispatch(action), 50)
 
@@ -23,7 +24,9 @@ function OwnPlayer() {
   }
 
   const handleDrag = (type, value, ele, position, event) => {
-    throttledDispatch(dispatch, actions.transitionCardTarget('active-card-drag', value, ele.id, position)) 
+    const isTargettingPlayers = isHoverPlayersContainer(position)
+    const targetPlayer = getPlayerAtCoordinates(position)
+    throttledDispatch(dispatch, actions.transitionCardTarget('active-card-drag', value, ele.id, position, isTargettingPlayers, targetPlayer)) 
   }
 
   const handleDragEnd = (type, value, ele, position, event) => {
@@ -39,7 +42,7 @@ function OwnPlayer() {
   const isSelf = player.id === self.id
   const isActive = round.activePlayer === player.id && player.hand.length === 2
   const isVisible = isSelf;
-  const {isTargetting, cardValue: targetValue} = cardAction
+  const {isTargetting, cardValue: targetValue, isTargettingPlayers} = cardAction
 
   return (
     <div className="own-player" id={`player-${player.id}`}>
@@ -48,8 +51,10 @@ function OwnPlayer() {
         {hand.map((card, index) => {
           const cardId = `${player.id}-${index}`
 
-          const isActiveHighlight = isSelf && isActive && (!isTargetting || card === targetValue)
-
+          const isPlayable = isActive && !isTargetting
+          const isDragging = isTargetting && card === targetValue
+          const isValidPlay = isTargetting && card === targetValue && isTargettingPlayers
+          
           return (
             <Card
               size="square"
@@ -59,8 +64,9 @@ function OwnPlayer() {
               className={cn(
                 'own-player__hand-card', 
                 {
-                  ['own-player__hand_card--active']: isActiveHighlight,
-                  ['own-player__hand-card--targettable']: !isSelf && isTargetting,
+                  ['own-player__hand_card--playable']: isPlayable,
+                  ['own-player__hand_card--targetting']: isDragging,
+                  ['own-player__hand-card--valid-targetting']: isValidPlay,
                   ['own-player__hand-card--first']: index === 0,
                   ['own-player__hand-card--second']: index === 1,
                 }

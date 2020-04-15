@@ -3,6 +3,8 @@ import types from '../types'
 const initialState = {
 	isOpen: false, // See full sized card in detail	
 	isTargetting: false, // Dragging to target player
+  isTargettingPlayers: false, // Is dragged over player box
+  targetPlayer: '', // ID of closest player during drag
 	cardValue: 0,
 	sourceId: '',
 	currentPosition: null,
@@ -29,7 +31,7 @@ function cardAction(state = initialState, action) {
 		break
 
 		case types.transitionCardTarget: {
-			const {eventType, cardValue, eleId, position} = action.payload
+			const {eventType, cardValue, eleId, position, targetPlayer, isTargettingPlayers} = action.payload
 
       switch(eventType) {
         case 'active-card-drag': {
@@ -40,6 +42,8 @@ function cardAction(state = initialState, action) {
             cardValue,
             sourceId: eleId,
             currentPosition: position,
+            targetPlayer,
+            isTargettingPlayers,
           }
         }
         case 'active-card-drag-end': {

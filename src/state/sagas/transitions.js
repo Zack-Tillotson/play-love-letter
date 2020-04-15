@@ -36,8 +36,6 @@ function* handlePlayerTargetting({payload: {eventType, cardValue, eleId, positio
 
     const sourcePos = document.getElementById(eleId).getBoundingClientRect()
 
-    if([4, 7, 8].includes(cardValue)) return // Don't show the arrow for non-targettable cards
-    
     arrowEle.setAttribute('x1', sourcePos.left + sourcePos.width / 2)
     arrowEle.setAttribute('y1', sourcePos.top + sourcePos.height / 2)
     arrowEle.setAttribute('x2', position.x)

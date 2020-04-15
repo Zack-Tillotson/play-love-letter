@@ -3,8 +3,17 @@
   
   text-align: center;
   align-content: center;
+
 }
 
 .persona__image {
   margin: 0 auto;
+}
+
+.players--targettable .persona--targettable {
+  box-shadow: 0 0 15px yellow;
+}
+
+.players--targettable .persona--targetted {
+  box-shadow: 0 0 15px red;
 }
