@@ -53,6 +53,10 @@ function playerPlaysCard(payload) {
   return {type: types.playerPlaysCard, payload}
 }
 
+function roundEffect(payload) {
+  return {type: types.roundEffect, payload}
+}
+
 // Transition events
 
 function transitionCardDrawn(playerId, duration) {
@@ -79,6 +83,7 @@ export default {
   roundReadied,
   playerReadied,
   playerPlaysCard,
+  roundEffect,
 
   transitionCardDrawn,
   transitionCardTarget,

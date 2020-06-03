@@ -44,11 +44,32 @@ function round(state = initialState, action) {
     }
 
     case types.playerPlaysCard: {
-      const {player, value} = action.payload;
+      const {player, value, targetPlayer, targetCard, statusMessage} = action.payload;
       return {
         ...state,
-        statusMessage: `${player.name} plays ${value}`,
+        statusMessage,
       }
+    }
+
+    case types.roundEffect: {
+      const {newCard, statusMessage} = action.payload;
+      let newState = state;
+
+      if(statusMessage) {
+        newState = {
+          ...newState,
+          statusMessage,
+        }
+      }
+
+      if(newCard) {
+        newState = {
+          ...newState,
+          deck: state.deck.slice(1),
+        }
+      }
+
+      return newState;
     }
 
     default:

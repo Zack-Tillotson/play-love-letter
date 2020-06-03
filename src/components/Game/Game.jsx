@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux'
 import selector from '../../state/selector'
 
 import CardSelection from 'components/CardSelection'
+import Rank1CardSelector from 'components/Rank1CardSelector'
 
 import Transitions from 'components/Transitions'
 
@@ -19,7 +20,7 @@ import logo from '../../images/logo.png'
 import './game.scss';
 
 function Game() {
-  const {isOpen, isTargetting} = useSelector(selector).cardAction
+  const {isOpen, isTargetting, isRank1SelectOpen} = useSelector(selector).cardAction
 
   return (
     <div className={'base-layout game'}>
@@ -31,6 +32,7 @@ function Game() {
       <OwnPlayer />
 
       {isOpen && <CardSelection />}
+      {isRank1SelectOpen && <Rank1CardSelector />}
     </div>
   );
 }

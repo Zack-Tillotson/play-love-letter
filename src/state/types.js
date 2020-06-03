@@ -11,10 +11,11 @@ export default {
   interactionClick: 'INTERACTION/click',
   interactionMount: 'INTERACTION/mount',
 
-  cardDrawn: 'CardDrawn',
-  roundReadied: 'RoundReadied',
-  playerReadied: 'PlayerReadied',
-  playerPlaysCard: 'PlayerPlaysCard',
+  cardDrawn: 'GAME/CardDrawn',
+  roundReadied: 'GAME/RoundReadied',
+  playerReadied: 'GAME/PlayerReadied',
+  playerPlaysCard: 'GAME/PlayerPlaysCard',
+  roundEffect: 'GAME/RoundEffect',
 
   transitionCardDrawn: 'TRANSITION/cardDrawn',
   transitionCardTarget: 'TRANSITION/cardTarget',

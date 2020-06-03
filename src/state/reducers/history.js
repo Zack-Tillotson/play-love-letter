@@ -22,6 +22,13 @@ function history(state = [], action) {
       }];
     }
 
+    case types.roundEffect: {
+      return [{
+        type: 'player_card_effect',
+        data: action.payload
+      }];
+    }
+
     default:
   }
   return state;

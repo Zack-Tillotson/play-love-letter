@@ -7,6 +7,7 @@ const initialState = {
   score: 0,
   playedCards: [],
   hand: [],
+  protected: false, // Can't be targetted
 }
 
 function players(state = [], action) {
@@ -46,8 +47,73 @@ function players(state = [], action) {
           ...statePlayer,
           hand: [otherCard],
           playedCards: [...statePlayer.playedCards, value],
+          protected: false,
         }
       })
+    }
+
+    case types.roundEffect: {
+      const {playerEliminated, playerProtected, player: playingPlayer, targetPlayer, newCard, value} = action.payload;
+
+      let newState = state;
+      if(playerEliminated) {
+        newState = newState.map(player => {
+          if(player === playerEliminated) {
+            return {
+              ...player,
+              playedCards: [...player.playedCards, ...player.hand],
+              status: 'eliminated',
+              hand: [],
+            }
+          }
+          return player;
+        })
+      }
+
+      if(playerProtected) {
+        newState = newState.map(player => {
+          if(player === playerProtected) {
+            return {
+              ...player,
+              protected: true,
+            }
+          }
+          return player;
+        }) 
+      }
+
+      if(newCard) {
+        newState = newState.map(player => {
+          if(player === targetPlayer) {
+            return {
+              ...player,
+              playedCards: [...player.playedCards, ...player.hand],
+              hand: [newCard],
+            }
+          }
+          return player;
+        }) 
+      }
+
+      if(value === 6) {
+        newState = newState.map(player => {
+          if(player === targetPlayer) {
+            return {
+              ...player,
+              hand: playingPlayer.hand,
+            }
+          }
+          if(player === playingPlayer) {
+            return {
+              ...player,
+              hand: targetPlayer.hand,
+            }
+          }
+          return player;
+        }) 
+      }
+
+      return newState;
     }
 
     default:

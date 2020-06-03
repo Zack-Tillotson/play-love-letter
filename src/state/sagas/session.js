@@ -36,8 +36,6 @@ function* handleClick({payload: {id, value}}) {
 
       yield call(database.del, 'events')
       yield call(database.del, 'meta')
-      yield call(database.set, 'meta',  {host: id, state: PREGAME, lobby: [{id, name: 'Host'}, {id: 'fake1', name: 'Alice'}, {id: 'fake2', name: 'Bob'}, {id: 'fake3', name: 'Charlie'}, {id: 'fake4', name: 'Dianne'}]})
-
     }
     break;
 
@@ -82,13 +80,14 @@ function* handleClick({payload: {id, value}}) {
     break;
 
     case 'cardPlay': {
-      const {playerId, cardValue, targetPlayer} = value;
+      const {playerId, cardValue, targetPlayer, targetCardValue} = value;
       yield call(database.push, 'events', {
         eventType: 'card_played',
         data: {
           playerId,
           value: cardValue,
           target: targetPlayer,
+          targetCard: targetCardValue,
         },
       });
     }
