@@ -80,6 +80,19 @@ function* handleClick({payload: {id, value}}) {
       }])
     }
     break;
+
+    case 'cardPlay': {
+      const {playerId, cardValue, targetPlayer} = value;
+      yield call(database.push, 'events', {
+        eventType: 'card_played',
+        data: {
+          playerId,
+          value: cardValue,
+          target: targetPlayer,
+        },
+      });
+    }
+    break;
     
   }
 }

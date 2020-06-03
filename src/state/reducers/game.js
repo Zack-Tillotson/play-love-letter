@@ -5,6 +5,11 @@ const initialState = {
   host: null,
   isHosting: false,
   state: SYNCING, // [syncing | pregame | ingame | postgame] events are taken from queue during ingame
+  isSynced: false,
+  itemsSynced: {
+    meta: false,
+    events: false,
+  },
   lobby: [], // {id, name}
   inTransition: false,
 }
@@ -20,13 +25,32 @@ function game(state = initialState, action) {
 
           const {state: gameState, host, lobby} = data;
           const {id} = action.meta;
-          
+
+          const itemsSynced = {
+            ...state.itemsSynced,
+            meta: true,
+          }
+
           return {
             ...state,
+            itemsSynced,
+            isSynced: !Object.values(itemsSynced).includes(false),
             state: gameState,
             host,
             isHosting: id === host,
             lobby,
+          }
+        }
+        case 'events': {
+          const itemsSynced = {
+            ...state.itemsSynced,
+            events: true,
+          }
+
+          return {
+            ...state,
+            itemsSynced,
+            isSynced: !Object.values(itemsSynced).includes(false),
           }
         }
       }

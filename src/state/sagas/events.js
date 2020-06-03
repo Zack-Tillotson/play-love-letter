@@ -44,8 +44,8 @@ export function* popQSaga() {
 
 function* popQIfReady() {
   const state = (yield select(selector));
-  const {eventQueue, game: {inTransition}} = state;
-  if(!inTransition && eventQueue.length) {
+  const {eventQueue, game: {inTransition, state: gameState, isSynced}} = state;
+  if(isSynced && gameState === 'ingame' && !inTransition && eventQueue.length) {
     yield fork(popQSaga)
   }
 }

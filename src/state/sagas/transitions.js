@@ -26,7 +26,7 @@ function* handlePlayerTargetting({payload: {eventType, cardValue, eleId, positio
   try {
     const arrowEle = document.getElementById('t-targetting-arrow-line')
 
-    if(eventType === 'active-card-drag-end') {
+    if(eventType !== 'active-card-drag') {
       arrowEle.removeAttribute('x1')
       arrowEle.removeAttribute('x2')
       arrowEle.removeAttribute('y1')

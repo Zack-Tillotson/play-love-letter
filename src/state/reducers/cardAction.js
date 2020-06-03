@@ -6,7 +6,7 @@ const initialState = {
   isTargettingPlayers: false, // Is dragged over player box
   targetPlayer: '', // ID of closest player during drag
 	cardValue: 0,
-	sourceId: '',
+	sourceId: '', // DOM element ID taking action
 	currentPosition: null,
 }
 
@@ -46,7 +46,7 @@ function cardAction(state = initialState, action) {
             isTargettingPlayers,
           }
         }
-        case 'active-card-drag-end': {
+        case 'active-card-drag-reset': {
           return initialState
         }
       }
