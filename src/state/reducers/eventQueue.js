@@ -6,7 +6,10 @@ import types from '../types';
 //   initiator: user who created event,
 //   time: time of event, all events will be handled sorted by time,
 // }
-const initialState = []
+const initialState = {
+  index: 0,
+  events: [],
+}
 
 function eventQueue(state = initialState, action) {
   switch(action.type) {
@@ -14,15 +17,23 @@ function eventQueue(state = initialState, action) {
       if(action.payload.path === 'events') {
         const {data = {}} = action.payload
         const events = Object.values(data)
-        return events
+        return {
+          ...state,
+          events,
+        }
       }
     }
+    break;
     case types.eventHandleStart: {
-      if(state?.[0] === action.payload.event) {
-        return state.slice(1);
+      if(state.events[state.index] === action.payload.event) {
+        return {
+          ...state,
+          index: state.index + 1,
+        }
       }
       return state;
     }
+    break;
   }
   return state;
 }

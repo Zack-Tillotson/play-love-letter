@@ -1,4 +1,4 @@
-import {SYNCING, PREGAME, INGAME} from '../constants';
+import {SYNCING, PREGAME, INGAME, POSTGAME} from '../constants';
 import types from '../types';
 
 const initialState = {
@@ -73,6 +73,12 @@ function game(state = initialState, action) {
       return {
         ...state,
         inTransition: false,
+      }
+    }
+    case types.gameOver: {
+      return {
+        ...state,
+        state: POSTGAME,
       }
     }
 

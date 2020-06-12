@@ -25,6 +25,10 @@ function cardPlayed(value, target) {
   return {type: types.cardPlayed, payload: {value, target}, meta: {inTransition: true}}
 }
 
+function gameOver(winner) {
+  return {type: types.gameOver, payload: {winner}}
+}
+
 // UI Interaction
 
 function interactionClick(id, value) {
@@ -84,6 +88,7 @@ export default {
   playerReadied,
   playerPlaysCard,
   roundEffect,
+  gameOver,
 
   transitionCardDrawn,
   transitionCardTarget,

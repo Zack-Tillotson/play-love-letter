@@ -24,7 +24,13 @@ function* handleMount() {
   }
 
   yield database.watch('meta', data => store.dispatch(actions.dataReceived('meta', data, {id})))
-  yield database.watch('events', data => store.dispatch(actions.dataReceived('events', data, {id})))
+  yield database.watch('events', data => {
+    const {eventQueue} = store.getState()
+    const isSingle = Object.keys(data).length - eventQueue.events.length === 1
+    gameSagas.changeDuration(isSingle)
+
+    store.dispatch(actions.dataReceived('events', data, {id}))
+  })
 }
 
 function* handleClick({payload: {id, value}}) {
@@ -90,6 +96,28 @@ function* handleClick({payload: {id, value}}) {
           targetCard: targetCardValue,
         },
       });
+    }
+
+    case 'startNextRound': {
+      const {players, self: {id}, game: {host}} = yield select()
+
+      if(id !== host) return;
+
+      const currentPlayerIndex = players.findIndex(player => player.id === value);
+      const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+      const nextPlayer = players[nextPlayerIndex].id;
+      
+      const deck = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1, 1, 1, 2, 3, 4, 5].sort((a, b) => Math.random() - .5)
+
+      console.log('nextPlayerIndex', nextPlayerIndex, deck)
+      yield call(database.push, 'events', {
+        eventType: 'round_initialized',
+        data: {
+          deck,
+          nextPlayer,
+        },
+      });
+
     }
     break;
     

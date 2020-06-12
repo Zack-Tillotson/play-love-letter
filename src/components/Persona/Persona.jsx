@@ -8,11 +8,9 @@ import './persona.scss'
 function Persona({name, score, status = 'playing', maxScore = 3, isTargettable, isTargetted, className}) {
 
   const dragEnterHandler = event => {
-    console.log('enter')
   }
 
   const dragExitHandler = event => {
-    console.log('exit')
   }
 
   const divClassName = cn('persona', className, {'persona--targettable': isTargettable, 'persona--targetted': isTargetted})

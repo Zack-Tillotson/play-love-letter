@@ -16,12 +16,13 @@ function* handleCardPlayed(data) {
 
 export function* popQSaga() {
   const {eventQueue} = (yield select(selector));
-  if(!eventQueue.length) {
+  if(eventQueue.index >= eventQueue.events.length) {
     console.warn('No event in event queue');
     return;
   }
 
-  const nextEvent = eventQueue[0];
+  const nextEvent = eventQueue.events[eventQueue.index]
+  
   yield put(actions.eventHandleStart(nextEvent));
 
   switch(nextEvent.eventType) {
@@ -45,7 +46,7 @@ export function* popQSaga() {
 function* popQIfReady() {
   const state = (yield select(selector));
   const {eventQueue, game: {inTransition, state: gameState, isSynced}} = state;
-  if(isSynced && gameState === 'ingame' && !inTransition && eventQueue.length) {
+  if(isSynced && gameState === 'ingame' && !inTransition && eventQueue.index < eventQueue.events.length) {
     yield fork(popQSaga)
   }
 }

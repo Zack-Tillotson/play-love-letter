@@ -3,27 +3,27 @@ import types from '../types';
 function history(state = [], action) {
   switch(action.type) {
     case types.gameReadied: {
-      return [{
+      return [...state, {
         type: 'game_start',
       }];
     }
 
     case types.roundReadied: {
-      return [{
+      return [...state, {
         type: 'round_ready',
         data: action.payload
       }];
     }
 
     case types.playerPlaysCard: {
-      return [{
+      return [...state, {
         type: 'player_plays_card',
         data: action.payload
       }];
     }
 
     case types.roundEffect: {
-      return [{
+      return [...state, {
         type: 'player_card_effect',
         data: action.payload
       }];

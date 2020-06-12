@@ -8,7 +8,7 @@ function withTransitionEndedMeta(action) {
   return {...action, meta: {...(action.meta || {}), inTransition: false}}
 }
 
-const duration = 750
+let duration = 750
 
 // A game is initialized with players when all players are ready. The
 // result should be the game is set up and the first round starts
@@ -56,7 +56,7 @@ function* monitorCardPlays() {
 
 function* handleCardPlay() {
   const {sourceId, isTargettingPlayers, targetPlayer, cardValue, targetCardValue} = (yield select(selector)).cardAction;
-  const {round: {activePlayer}, self, game: {state}} = (yield select(selector));
+  const {round: {activePlayer}, self, game: {state}, eventQueue} = (yield select(selector));
 
   const hasRank1TargetCardWhenNeeded = cardValue !== 1 || !!targetCardValue;
 
@@ -185,9 +185,22 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
 function* handleTurnEnd() {
   const {players, round} = yield select(selector);
 
-  const roundIsOver = players.filter(player => player.status === 'active').length <= 1 || round.deck.length <= 1;
+  const activePlayers = players.filter(player => player.status === 'active')
+  const roundIsOver = activePlayers.length <= 1 || round.deck.length <= 1
 
   if(roundIsOver) {
+    const roundWinner = activePlayers.length === 1 ? activePlayers[0] : activePlayers.sort((a, b) => b.hand[0] - a.hand[0])[0]
+    yield put(actions.roundEffect({roundWinner, statusMessage: `${roundWinner.name} won the round!`}))
+    yield delay(duration)
+
+    const highScorer =  (yield select(selector)).players.sort((a, b) => b.score - a.score)[0]
+    if(highScorer.score >= 3) {
+      yield put(actions.gameOver({winner: highScorer, statusMessage: `${roundWinner.name} won the round!`}))
+      yield delay(duration)
+    } else {
+      // xxx this needs to be triggered in response to the card being played, not an event being handled
+      // yield put(actions.interactionClick('startNextRound', roundWinner.playerId));
+    }
 
   } else {    
 
@@ -196,17 +209,10 @@ function* handleTurnEnd() {
 
     yield handlePlayerInitialization({playerId: players[nextPlayerIndex].id});
   }
-  // Is round over?
-  // If yes
-    // Award win point
-    // Is game over?
-    // If yes
-      // Display win screen
-    // else
-      // initialize next round
-  // else
-    // Make next player active
+}
 
+function changeDuration(isSingleEvent) {
+  duration = (isSingleEvent ? 750 : 1)
 }
 
 export default {
@@ -214,4 +220,6 @@ export default {
   implCardPlay,
 
   monitorCardPlays, // Wait for local game event and translate to game interaction
+
+  changeDuration,
 }

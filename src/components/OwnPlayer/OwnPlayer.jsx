@@ -37,7 +37,7 @@ function OwnPlayer() {
   const player = players.find(player => player.id === self.id)
   if(!player) return null
 
-  const {name, playedCards, hand} = player
+  const {name, playedCards, hand, score} = player
   
   const isSelf = player.id === self.id
   const isActive = round.activePlayer === player.id && player.hand.length === 2
@@ -46,7 +46,7 @@ function OwnPlayer() {
 
   return (
     <div className="own-player" id={`player-${player.id}`}>
-      <Persona name={name} score={2} className="own-player__persona" />
+      <Persona name={name} score={score} className="own-player__persona" />
       <div className="own-player__hand">
         {hand.map((card, index) => {
           const cardId = `${player.id}-${index}`

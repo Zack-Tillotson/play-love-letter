@@ -53,7 +53,7 @@ function players(state = [], action) {
     }
 
     case types.roundEffect: {
-      const {playerEliminated, playerProtected, player: playingPlayer, targetPlayer, newCard, value} = action.payload;
+      const {playerEliminated, playerProtected, player: playingPlayer, targetPlayer, newCard, value, roundWinner} = action.payload;
 
       let newState = state;
       if(playerEliminated) {
@@ -111,6 +111,18 @@ function players(state = [], action) {
           }
           return player;
         }) 
+      }
+
+      if(roundWinner) {
+        newState = newState.map(player => {
+          if(player === roundWinner) {
+            return {
+              ...player,
+              score: player.score + 1,
+            }
+          }
+          return player;
+        })
       }
 
       return newState;

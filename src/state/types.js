@@ -16,6 +16,7 @@ export default {
   playerReadied: 'GAME/PlayerReadied',
   playerPlaysCard: 'GAME/PlayerPlaysCard',
   roundEffect: 'GAME/RoundEffect',
+  gameOver: 'GAME/GameOver',
 
   transitionCardDrawn: 'TRANSITION/cardDrawn',
   transitionCardTarget: 'TRANSITION/cardTarget',

@@ -28,7 +28,7 @@ function Players() {
         .filter(player => player.id !== self.id)
         .map((player) => {
 
-          const {name, playedCards, hand} = player
+          const {name, playedCards, hand, score} = player
           const isActive = round.activePlayer === player.id && player.hand.length === 2
           const {isTargetting, cardValue: targetValue, isTargettingPlayers, targetPlayer} = cardAction
 
@@ -36,7 +36,7 @@ function Players() {
 
           return (
             <div key={name} className={cn('player', {'player--targetted': isTargettedPlayer})} id={`player-${player.id}`}>
-              <Persona name={name} score={2} isTargettable={TARGET_CARDS.includes(targetValue)} isTargetted={isTargettedPlayer} />
+              <Persona name={name} score={score} isTargettable={TARGET_CARDS.includes(targetValue)} isTargetted={isTargettedPlayer} />
               <div className="player-cards">
                 {playedCards.map((card, index) => (
                   <Card
