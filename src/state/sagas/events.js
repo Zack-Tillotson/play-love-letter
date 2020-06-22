@@ -14,6 +14,10 @@ function* handleCardPlayed(data) {
   return yield gameSagas.implCardPlay(data)
 }
 
+function* handleRoundInitialization(data) {
+  return yield gameSagas.implRoundInit(data)
+}
+
 export function* popQSaga() {
   const {eventQueue} = (yield select(selector));
   if(eventQueue.index >= eventQueue.events.length) {
@@ -28,6 +32,11 @@ export function* popQSaga() {
   switch(nextEvent.eventType) {
     case 'game_started': {
       yield handleGameInitialization(nextEvent.data)
+      break;
+    }
+
+    case 'round_initialized': {
+      yield handleRoundInitialization(nextEvent.data)
       break;
     }
 

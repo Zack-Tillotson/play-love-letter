@@ -26,7 +26,7 @@ function* handleMount() {
   yield database.watch('meta', data => store.dispatch(actions.dataReceived('meta', data, {id})))
   yield database.watch('events', data => {
     const {eventQueue} = store.getState()
-    const isSingle = Object.keys(data).length - eventQueue.events.length === 1
+    const isSingle = Object.keys(data || {}).length - eventQueue.events.length === 1
     gameSagas.changeDuration(isSingle)
 
     store.dispatch(actions.dataReceived('events', data, {id}))

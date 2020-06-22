@@ -10,11 +10,26 @@ function withTransitionEndedMeta(action) {
 
 let duration = 750
 
+// xxx game init should only set up playes and such, round init should be where people draw cards.
+// also hook up round 2+ init events
+
 // A game is initialized with players when all players are ready. The
 // result should be the game is set up and the first round starts
 function* implGameInit({players, deck, startPlayer}) {
-  yield put(actions.gameReadied(players, deck, startPlayer))
+  yield put(actions.gameReadied(players))
   yield delay(duration)
+
+  yield handleRoundInitialization({deck, nextPlayer: startPlayer});
+}
+
+function* implRoundInit({deck, nextPlayer}) {
+  yield handleRoundInitialization({deck, nextPlayer})
+}
+
+function* handleRoundInitialization({deck, nextPlayer}) {
+  yield put(actions.roundReadied(deck, nextPlayer))
+
+  const {players} = yield select(selector);
 
   // draw a card for each player
   for(let i = 0 ; i < players.length; i++) {
@@ -27,14 +42,7 @@ function* implGameInit({players, deck, startPlayer}) {
     yield put(actions.cardDrawn(player.id, nextCard))
   }
 
-  yield handleRoundInitialization({roundNum: 1, activePlayer: startPlayer})
-}
-
-function* handleRoundInitialization({roundNum, activePlayer}) {
-  yield delay(duration)
-  yield put(actions.roundReadied(1, activePlayer))
-
-  yield handlePlayerInitialization({playerId: activePlayer})
+  yield handlePlayerInitialization({playerId: nextPlayer})
 }
 
 function* handlePlayerInitialization({playerId}) {
@@ -66,7 +74,7 @@ function* handleCardPlay() {
   }
 
   if(isTargettingPlayers && state === 'ingame' && activePlayer === self.id) {
-    yield put(actions.interactionClick('cardPlay', {playerId: activePlayer, cardValue, targetPlayer, targetCardValue}));
+    const result = yield put(actions.interactionClick('cardPlay', {playerId: activePlayer, cardValue, targetPlayer, targetCardValue}));
   }
 
   yield put(actions.transitionCardTarget('active-card-drag-reset'));  
@@ -112,7 +120,9 @@ function* implCardPlay({playerId, value, target, targetCard}) {
 
   yield put(actions.playerPlaysCard({player, value, targetPlayer, targetCard, statusMessage: playCardMessage}))
   yield delay(duration)
-  yield handleCardEffect({playerId, value, target, targetCard});
+  const effect = yield handleCardEffect({playerId, value, target, targetCard});
+
+  return effect;
 }
 
 function* handleCardEffect({playerId, value, target, targetCard}) {
@@ -179,7 +189,9 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
   }
 
   yield delay(duration)
-  yield handleTurnEnd()
+  const effect = yield handleTurnEnd()
+
+  return effect;
 }
 
 function* handleTurnEnd() {
@@ -195,11 +207,8 @@ function* handleTurnEnd() {
 
     const highScorer =  (yield select(selector)).players.sort((a, b) => b.score - a.score)[0]
     if(highScorer.score >= 3) {
-      yield put(actions.gameOver({winner: highScorer, statusMessage: `${roundWinner.name} won the round!`}))
+      yield put(actions.gameOver({winner: highScorer, statusMessage: `${highScorer.name} won the game!`}))
       yield delay(duration)
-    } else {
-      // xxx this needs to be triggered in response to the card being played, not an event being handled
-      // yield put(actions.interactionClick('startNextRound', roundWinner.playerId));
     }
 
   } else {    
@@ -218,7 +227,8 @@ function changeDuration(isSingleEvent) {
 export default {
   implGameInit, // Take event and apply to local game state
   implCardPlay,
-
+  implRoundInit,
+  
   monitorCardPlays, // Wait for local game event and translate to game interaction
 
   changeDuration,

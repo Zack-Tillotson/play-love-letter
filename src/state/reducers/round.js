@@ -5,25 +5,25 @@ const initialState = {
   deck: [],
   activePlayer: -1,
   statusMessage: 'Please wait, setting up',
+  isRoundOver: false,
 }
 
 function round(state = initialState, action) {
   switch(action.type) {
     case types.gameReadied: {
-      const {deck} = action.payload;
-
-      return {
-        ...initialState,
-        deck,
-      };
+      return initialState;
     }
 
     case types.roundReadied: {
-      const {roundNum} = action.payload
+      const {deck, nextPlayer} = action.payload;
+      
       return {
         ...state,
-        roundNum,
-        statusMessage: 'New round, here we go!'
+        roundNum: state.roundNum + 1,
+        isRoundOver: false,
+        statusMessage: 'New round, here we go!',
+        deck,
+        activePlayer: nextPlayer,
       }
     }
 
@@ -52,7 +52,7 @@ function round(state = initialState, action) {
     }
 
     case types.roundEffect: {
-      const {newCard, statusMessage} = action.payload;
+      const {newCard, statusMessage, roundWinner} = action.payload;
       let newState = state;
 
       if(statusMessage) {
@@ -66,6 +66,13 @@ function round(state = initialState, action) {
         newState = {
           ...newState,
           deck: state.deck.slice(1),
+        }
+      }
+
+      if(roundWinner) {
+        newState = {
+          ...newState,
+          isRoundOver: true,
         }
       }
 
