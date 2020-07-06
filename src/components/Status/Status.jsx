@@ -8,9 +8,10 @@ import './status.css';
 
 function Status() {
   const {roundNum, statusMessage, isRoundOver} = useSelector(selector).round;
-  const {isHosting} = useSelector(selector).game;
+  const {state, isHosting} = useSelector(selector).game;
   const dispatch = useDispatch()
 
+  const isGameOver = state === 'postgame';
 
   const handleRoundStart = () => {
     dispatch(actions.interactionClick('startNextRound'))
@@ -20,7 +21,7 @@ function Status() {
   return (
     <div className="status">
       {statusMessage}
-      {isRoundOver && isHosting && (
+      {isRoundOver && !isGameOver && isHosting && (
         <button className="start-next-round" onClick={handleRoundStart}>
           Start next round
         </button>

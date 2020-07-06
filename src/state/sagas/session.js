@@ -97,6 +97,7 @@ function* handleClick({payload: {id, value}}) {
         },
       });
     }
+    break;
 
     case 'startNextRound': {
       const {players, self: {id}, game: {host}} = yield select()
@@ -109,7 +110,7 @@ function* handleClick({payload: {id, value}}) {
       
       const deck = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1, 1, 1, 2, 3, 4, 5].sort((a, b) => Math.random() - .5)
 
-      console.log('nextPlayerIndex', nextPlayerIndex, deck)
+      
       yield call(database.push, 'events', {
         eventType: 'round_initialized',
         data: {

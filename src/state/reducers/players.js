@@ -20,6 +20,15 @@ function players(state = [], action) {
       }));
     }
 
+    case types.roundReadied: {
+      return state.map(player => ({
+        ...initialState,
+        id: player.id,
+        name: player.name,
+        score: player.score,
+      }));
+    }
+
     case types.cardDrawn: {
       const {playerId, value} = action.payload
       return state.map(player => {

@@ -19,7 +19,7 @@ function GameMonitor() {
 
 
 	if(state === PREGAME) return (<Lobby />)
-	if(state === INGAME) return (<Game />)
+	return (<Game />)
 
 	return null
 

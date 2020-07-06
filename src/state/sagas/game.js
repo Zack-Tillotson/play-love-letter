@@ -128,64 +128,72 @@ function* implCardPlay({playerId, value, target, targetCard}) {
 function* handleCardEffect({playerId, value, target, targetCard}) {
   const player = (yield select(selector)).players.find(p => p.id === playerId)
   const targetPlayer = (yield select(selector)).players.find(p => p.id === target)
+  
+  const isTargetProtected = targetPlayer.protected;
+  if(isTargetProtected) {
+    const cardEffectMessage = `${player.name} tried to target ${targetPlayer.name}, but they are protected. Nothing happens!`
+    yield put(actions.roundEffect({player, targetPlayer, statusMessage: cardEffectMessage}))
 
-  switch(value) {
-    case 1: {
-      const isCorrectGuess = targetPlayer.hand.includes(targetCard);
-      const cardEffectMessage = `${player.name} guessed ${isCorrectGuess ? 'correctly' : 'wrong'}${isCorrectGuess ? ` ${targetPlayer.name} is eliminated!` : ''}`
-      yield put(actions.roundEffect({player, targetPlayer, value, isCorrectGuess, playerEliminated: isCorrectGuess ? player : null, statusMessage: cardEffectMessage}))
-    }
-    break
-    case 2: {
-      const cardEffectMessage = `${player.name} can look at ${targetPlayer.name}'s hand card`
-      yield put(actions.roundEffect({player, targetPlayer, value, cardEffectMessage}))
-    }
-    break
-    case 3: {
-      const isTargetOut = player.hand[0] > targetPlayer.hand[0];
-      const arePlayersEqual = player.hand[0] === targetPlayer.hand[0];
-      
-      let playerEliminated = null;
-      let cardEffectMessage = `${player.name} and ${targetPlayer.name} have the same hand card, so noone is eliminated`;
-      
-      if(!arePlayersEqual) {
-        playerEliminated = isTargetOut ? targetPlayer : player;
-        const playerNotEliminated = isTargetOut ? player : targetPlayer;
-        cardEffectMessage = `${playerNotEliminated.name} has a higher card, ${playerEliminated.name} is eliminated`
-      }
-      
-      yield put(actions.roundEffect({player, targetPlayer, value, playerEliminated, statusMessage: cardEffectMessage}))
-    }
-    break
-    case 4: {
-      const cardEffectMessage = `${player.name} can't be targetted until their next round`;
-      yield put(actions.roundEffect({player, targetPlayer, value, playerProtected: player, statusMessage: cardEffectMessage})) 
-    }
-    break;
-    case 5: {
-      const playerEliminated = targetPlayer.hand[0] === 8 ? targetPlayer : null;
-      const newCard = !!playerEliminated ? 0 : (yield select(selector)).round.deck[0];
+  } else {
+    switch(value) {
+      case 1: {
+        const isCorrectGuess = !isTargetProtected && targetPlayer.hand.includes(targetCard);
+        const cardEffectMessage = `${player.name} guessed ${isCorrectGuess ? 'correctly' : 'wrong'}${isCorrectGuess ? ` ${targetPlayer.name} is eliminated!` : ''}`
 
-      let cardEffectMessage = `${targetPlayer.name} discards a ${targetPlayer.hand[0]} and draws a new card`
-      if(playerEliminated) {
-        cardEffectMessage = `${targetPlayer.name} discards a ${targetPlayer.hand[0]} and is eliminated`
+        yield put(actions.roundEffect({player, targetPlayer, value, isCorrectGuess, playerEliminated: isCorrectGuess ? player : null, statusMessage: cardEffectMessage}))
       }
-      yield put(actions.roundEffect({player, targetPlayer, value, newCard, playerEliminated, statusMessage: cardEffectMessage}))  
+      break
+      case 2: {
+        const cardEffectMessage = `${player.name} can look at ${targetPlayer.name}'s hand card`
+        yield put(actions.roundEffect({player, targetPlayer, value, cardEffectMessage}))
+      }
+      break
+      case 3: {
+        const isTargetOut = player.hand[0] > targetPlayer.hand[0];
+        const arePlayersEqual = player.hand[0] === targetPlayer.hand[0];
+        
+        let playerEliminated = null;
+        let cardEffectMessage = `${player.name} and ${targetPlayer.name} have the same hand card, so noone is eliminated`;
+        
+        if(!arePlayersEqual) {
+          playerEliminated = isTargetOut ? targetPlayer : player;
+          const playerNotEliminated = isTargetOut ? player : targetPlayer;
+          cardEffectMessage = `${playerNotEliminated.name} has a higher card, ${playerEliminated.name} is eliminated`
+        }
+        
+        yield put(actions.roundEffect({player, targetPlayer, value, playerEliminated, statusMessage: cardEffectMessage}))
+      }
+      break
+      case 4: {
+        const cardEffectMessage = `${player.name} can't be targetted until their next round`;
+        yield put(actions.roundEffect({player, targetPlayer, value, playerProtected: player, statusMessage: cardEffectMessage})) 
+      }
+      break;
+      case 5: {
+        const playerEliminated = targetPlayer.hand[0] === 8 ? targetPlayer : null;
+        const newCard = !!playerEliminated ? 0 : (yield select(selector)).round.deck[0];
+
+        let cardEffectMessage = `${targetPlayer.name} discards a ${targetPlayer.hand[0]} and draws a new card`
+        if(playerEliminated) {
+          cardEffectMessage = `${targetPlayer.name} discards a ${targetPlayer.hand[0]} and is eliminated`
+        }
+        yield put(actions.roundEffect({player, targetPlayer, value, newCard, playerEliminated, statusMessage: cardEffectMessage}))  
+      }
+      break
+      case 6: {
+        yield put(actions.roundEffect({player, targetPlayer, value}))
+      }
+      break
+      case 7: {
+        yield put(actions.roundEffect({player, targetPlayer, value}))  
+      }
+      break
+      case 8: {
+        const cardEffectMessage = `${player.name} is eliminated`
+        yield put(actions.roundEffect({player, targetPlayer, value, playerEliminated: player, statusMessage: cardEffectMessage}))
+      }
+      break;
     }
-    break
-    case 6: {
-      yield put(actions.roundEffect({player, targetPlayer, value}))
-    }
-    break
-    case 7: {
-      yield put(actions.roundEffect({player, targetPlayer, value}))  
-    }
-    break
-    case 8: {
-      const cardEffectMessage = `${player.name} is eliminated`
-      yield put(actions.roundEffect({player, targetPlayer, value, playerEliminated: player, statusMessage: cardEffectMessage}))
-    }
-    break;
   }
 
   yield delay(duration)
