@@ -16,6 +16,6 @@
 .card-selection__card {
   max-width: calc(100% - var(--grid-gap));
   max-height: calc(100% - var(--grid-gap));
-  height: auto;
   margin: 0 auto;
+  height: 100%;
 }

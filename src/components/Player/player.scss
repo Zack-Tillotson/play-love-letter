@@ -105,7 +105,6 @@
 
 .player__persona {
   order: 2;
-  z-index: 1;
 }
 
 .player__hand-cards {
@@ -120,8 +119,25 @@
     margin-left: var(--grid-gap);
   }
 
-  .player_hand-card--not-self {
+  .player__hand-card {
+    border: solid 5px;
+  }
+
+  .player__hand-card--not-self {
     height: calc(.55 * var(--card-height));
+  }
+
+
+  .player__hand-card--playable {
+    border-color: lightgreen;
+  }
+
+  .player__hand-card--targetting {
+    border-color: darkgreen;
+  }
+
+  .player__hand-card--valid-targetting {
+    border-color: blue; 
   }
 }
 
