@@ -1,8 +1,6 @@
 import React from 'react'
 import cn from 'classnames'
 
-import imgPersona1 from '../../images/persona-1.png'
-
 import './persona.scss'
 
 function Persona({name, score, status = 'playing', maxScore = 3, isTargettable, isTargetted, className}) {
@@ -17,7 +15,6 @@ function Persona({name, score, status = 'playing', maxScore = 3, isTargettable, 
 
   return (
     <div className={divClassName} onDragEnter={dragEnterHandler} onDragExit={dragExitHandler} data-target={'' + !!isTargettable}>
-      <img className="persona__image" src={imgPersona1} />
       <div className="persona__name">
         {name}
       </div>

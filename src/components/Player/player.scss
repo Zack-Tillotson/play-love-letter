@@ -1,0 +1,130 @@
+
+.player {
+  display: inline-flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  
+  padding: 5px;
+  text-align: center;
+  width: 150px;
+}
+
+/* Locations */
+.player--self {
+  bottom: 0;
+  left: calc(50% - 75px);
+}
+
+/* 2 player */
+.player--1-of-1 {
+  right: 60px;
+  top: 100px;
+}
+
+/* 3 player */
+.player--1-of-2 {
+  left: 60px;
+  top: 100px;
+}
+
+.player--2-of-2 {
+  right: 60px;
+  top: 100px;
+}
+
+/* 4 player */
+.player--1-of-3 {
+  left: 80px;
+  bottom: 90px;
+}
+
+.player--2-of-3 {
+  left: calc(50% - 75px);
+  top: 30px;
+}
+
+.player--3-of-3 {
+  right: 60px;
+  bottom: 90px;
+}
+
+/* 5 player */
+.player--1-of-4 {
+  left: 80px;
+  bottom: 25px;
+}
+
+.player--2-of-4 {
+  left: 80px;
+  top: 50px;
+}
+
+.player--3-of-4 {
+  right: 60px;
+  top: 50px;
+}
+
+.player--4-of-4 {
+  right: 60px;
+  bottom: 25px;
+}
+
+/* 6 player */
+.player--1-of-5 {
+  left: 80px;
+  bottom: 25px;
+}
+
+.player--2-of-5 {
+  left: 80px;
+  top: 50px;
+}
+
+.player--3-of-5 {
+  left: calc(50% - 75px);
+  top: 30px;
+}
+
+.player--4-of-5 {
+  right: 60px;
+  top: 50px;
+}
+
+.player--5-of-5 {
+  right: 60px;
+  bottom: 25px;
+}
+
+/* Locations done */
+.player--self .player__played-cards {
+  order: 1;
+}
+.player--self .player__persona {
+  order: 2;
+}
+
+.player__persona {
+  order: 2;
+  z-index: 1;
+}
+
+.player__hand-cards {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  margin: var(--grid-gap) 0;
+  position: relative;
+  bottom: -20px;
+
+  .card ~ .card {
+    margin-left: var(--grid-gap);
+  }
+
+  .player_hand-card--not-self {
+    height: calc(.55 * var(--card-height));
+  }
+}
+
+.player__played-cards {
+
+}

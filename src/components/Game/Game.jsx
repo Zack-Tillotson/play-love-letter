@@ -9,9 +9,8 @@ import Rank1CardSelector from 'components/Rank1CardSelector'
 import Transitions from 'components/Transitions'
 
 import Status from 'components/Status';
-import Deck from 'components/Deck';
+import History from 'components/History';
 import Players from 'components/Players';
-import OwnPlayer from 'components/OwnPlayer';
 
 import {INGAME} from '../../state/constants'
 
@@ -26,10 +25,9 @@ function Game() {
     <div className={'base-layout game'}>
       <Transitions />
 
-      <Deck />
-      <Status />      
+      <History />
+      <Status />
       <Players />
-      <OwnPlayer />
 
       {isOpen && <CardSelection />}
       {isRank1SelectOpen && <Rank1CardSelector />}

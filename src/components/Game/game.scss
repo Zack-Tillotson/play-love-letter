@@ -2,28 +2,20 @@
   display: inline-grid;
   width: 100vw;
   height: 100vh;
+  margin: 0;
+  padding: 0;
   
   grid-template:
-    "deck    status"
-    "players players"
-    "self    self";
-  grid-template-rows: auto 1fr 1fr;
-  grid-template-columns: auto 1fr;
+    "help    status  status  menu"
+    "players players players players";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 50px 1fr 1fr auto;
 
   grid-gap: var(--grid-gap);
-  padding: var(--grid-gap);
 
   @media (orientation: landscape) {
-    grid-template:
-      "deck status players"
-      "self self players";
-    grid-template-rows: auto 1fr;
-    grid-template-columns: auto 1fr 1fr;
-
   }
 }
 
 .status { grid-area: status; }
-.deck { grid-area: deck; }
 .players { grid-area: players; }
-.own-player { grid-area: self; }

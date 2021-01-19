@@ -1,9 +1,12 @@
 .persona {
   display: grid;
+  width: 100%;
   
   text-align: center;
   align-content: center;
 
+  background: darkblue;
+  color: white;
 }
 
 .persona__image {

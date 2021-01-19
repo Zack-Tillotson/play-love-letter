@@ -19,7 +19,6 @@
   flex-flow: row wrap;
   justify-content: space-around;
   row-gap: 2rem;
-  background: #6663;
 
   @media(orientation: landscape) {
     flex-flow: column wrap;
@@ -28,54 +27,4 @@
 
   &--targettable {
   }
-}
-
-.player {
-  display: grid;
-  grid-template-areas:
-    "score"
-    "persona"
-    "name"
-    "played-cards";
-
-  grid-template-rows: auto auto auto 1fr;
-  
-  padding: 5px;
-  text-align: center;
-}
-
-.player-cards {
-  grid-area: played-cards;
-  position: relative;
-  filter: grayscale(60%);
-}
-
-.player-cards__played-card {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.player-name {
-  grid-area: name;
-
-  font-weight: bold;
-  line-height: 2rem;
-}
-
-.player-score {
-  grid-area: score;
-  line-height: 2rem;
-}
-
-.player-score__heart {
-  color: darkred;
-}
-
-.player-score__empty {
-  color: #fff;
-}
-
-.player-persona {
-  margin: 0 auto;
 }

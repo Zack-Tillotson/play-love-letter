@@ -8,49 +8,22 @@ import actions from '../../state/actions'
 
 import './players.scss'
 
-import Card from '../Card'
-import Persona from '../Persona'
+import Player from '../Player'
 
-const TARGET_CARDS = [1, 2, 3, 5, 6]
-const throttledDispatch = throttle((dispatch, action) => dispatch(action), 50)
+function getPlayerClassName(players, player, self, index) {
+  if(player.id === self.id) return 'player--self';
+
+  const position = players.findIndex(testPlayer => testPlayer.id === self.id) < index ? index : index + 1;
+
+  return `player--${position}-of-${players.length - 1}`  
+}
 
 function Players() {
-  const {players, self, round, cardAction} = useSelector(selector)
-  const dispatch = useDispatch()
-
-  const handleClick = value => {
-    dispatch(actions.interactionClick('active-card', value))
-  }
+  const {players, self} = useSelector(selector)
 
   return (
-    <div className={cn('players', {'players--targettable': cardAction.isTargetting})} id="players-container">
-      {players
-        .filter(player => player.id !== self.id)
-        .map((player) => {
-
-          const {name, playedCards, hand, score} = player
-          const isActive = round.activePlayer === player.id && player.hand.length === 2
-          const {isTargetting, cardValue: targetValue, isTargettingPlayers, targetPlayer} = cardAction
-
-          const isTargettedPlayer = isTargettingPlayers && targetPlayer === player.id && TARGET_CARDS.includes(targetValue)
-
-          return (
-            <div key={name} className={cn('player', {'player--targetted': isTargettedPlayer})} id={`player-${player.id}`}>
-              <Persona name={name} score={score} isTargettable={TARGET_CARDS.includes(targetValue)} isTargetted={isTargettedPlayer} />
-              <div className="player-cards">
-                {playedCards.map((card, index) => (
-                  <Card
-                    key={index}
-                    value={card}
-                    className={`player-cards__played-card`}
-                    isVisible={true}
-                    style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
-                ))}
-              </div>
-            </div>
-          )
-        })
-      }
+    <div className={cn('players')} id="players-container">
+      {players.map((player, index) => <Player key={player.id} player={player} className={getPlayerClassName(players, player, self, index)} />)}
     </div>
   );
 }
