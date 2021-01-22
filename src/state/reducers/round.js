@@ -1,7 +1,7 @@
 import types from '../types';
 
 const initialState = {
-  roundNum: 1,
+  roundNum: 0,
   deck: [],
   activePlayer: -1,
   statusMessage: 'Please wait, setting up',

@@ -27,7 +27,8 @@ function* implRoundInit({deck, nextPlayer}) {
 }
 
 function* handleRoundInitialization({deck, nextPlayer}) {
-  yield put(actions.roundReadied(deck, nextPlayer))
+  const {roundNum} = (yield select(selector)).round;
+  yield put(actions.roundReadied(deck, nextPlayer, roundNum + 1))
 
   const {players} = yield select(selector);
 
@@ -132,7 +133,7 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
   const isTargetProtected = targetPlayer.protected;
   if(isTargetProtected) {
     const cardEffectMessage = `${player.name} tried to target ${targetPlayer.name}, but they are protected. Nothing happens!`
-    yield put(actions.roundEffect({player, targetPlayer, statusMessage: cardEffectMessage}))
+    yield put(actions.roundEffect({player, targetPlayer, value, statusMessage: cardEffectMessage}))
 
   } else {
     switch(value) {

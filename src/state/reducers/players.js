@@ -4,6 +4,7 @@ const initialState = {
   id: 0,
   name: 'Player',
   status: 'active',
+  color: '#000',
   score: 0,
   playedCards: [],
   hand: [],
@@ -26,6 +27,7 @@ function players(state = [], action) {
         id: player.id,
         name: player.name,
         score: player.score,
+        color: player.color,
       }));
     }
 

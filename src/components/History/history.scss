@@ -1,0 +1,54 @@
+.history {
+  --history-border: solid 2px #333;
+
+  display: flex;
+  flex-flow: column nowrap;
+  flex-direction: column-reverse;
+
+  padding: var(--grid-gap);
+
+  background: #eee;
+  border-top: var(--history-border);
+  border-right: var(--history-border);
+  border-bottom: var(--history-border);
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 0 5px #333;
+}
+
+.history__scrolly {
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+.history__round-title {
+  padding: var(--grid-gap);
+  margin-top: 10px;
+
+  border: solid 2px #000;
+  border-radius: 8px;
+
+  font-size: 10px;
+  background: #666;
+  color: white;
+  text-transform: uppercase;
+  word-wrap: unset;
+}
+
+.history__card-played {
+  margin-top: 16px;
+  border: solid 1px black;
+}
+
+.history__card-container {
+  height: 30px;
+  overflow: hidden;
+}
+
+.history__card {
+  width: 100%;
+  height: auto;
+}
+
+.history__player {
+  
+}

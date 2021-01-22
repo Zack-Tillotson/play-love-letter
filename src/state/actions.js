@@ -45,8 +45,8 @@ function cardDrawn(playerId, value) {
   return {type: types.cardDrawn, payload: {playerId, value}}
 }
 
-function roundReadied(deck, nextPlayer) {
-  return {type: types.roundReadied, payload: {deck, nextPlayer}}
+function roundReadied(deck, nextPlayer, roundNum) {
+  return {type: types.roundReadied, payload: {deck, nextPlayer, roundNum}}
 }
 
 function playerReadied(player) {

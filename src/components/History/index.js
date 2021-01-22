@@ -1,2 +1,2 @@
-import C from './Status';
+import C from './History';
 export default C;

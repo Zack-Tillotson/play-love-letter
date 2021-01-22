@@ -54,7 +54,7 @@ function Player({player, className}) {
             style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
         ))}
       </div>
-      <Persona name={name} score={score} isTargettable={TARGET_CARDS.includes(targetValue)} isTargetted={isTargettedPlayer} className="player__persona" />
+      <Persona name={name} score={score} isTargettable={TARGET_CARDS.includes(targetValue)} isTargetted={isTargettedPlayer} className="player__persona" color={player.color} />
       <div className="player__hand-cards">
         {player.hand.map((card, index) => {
 

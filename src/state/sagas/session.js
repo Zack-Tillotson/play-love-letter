@@ -10,6 +10,15 @@ import gameSagas from './game'
 
 import store from '../../store'; // xxx 
 
+const COLORS = [
+  '#4646ff',
+  '#ca3853',
+  '#20775b',
+  '#7405a2',
+  '#9e500e',
+  '#00b906',
+]
+
 function* handleMount() {
 
   const meta = yield database.get('meta')
@@ -71,7 +80,12 @@ function* handleClick({payload: {id, value}}) {
       const {lobby} = (yield select()).game
 
       const deck = [1, 2, 3, 4, 5, 6, 7, 8, 1, 1, 1, 1, 2, 3, 4, 5].sort((a, b) => Math.random() - .5)
-      const players = lobby.sort((a, b) => Math.random() - .5).map(({name, id: id}) => ({name, id}))
+      const players = lobby
+        .sort((a, b) => Math.random() - .5).map(({name, id: id}) => ({name, id}))
+        .map((player, index) => ({
+          ...player,
+          color: COLORS[index],
+        }))
 
       yield call(database.set, 'meta', {state: 'ingame'})
       yield call(database.set, 'events', [{
