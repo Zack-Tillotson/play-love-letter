@@ -6,23 +6,37 @@
   bottom: 0;
 
   display: grid;
-  grid-template: 1fr / 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
+
   justify-items: center;
   align-items: center;
 
   background: rgba(39,0,0,.8);
+
+  &--three-column {
+    grid-template-columns: 1fr auto 1fr;
+  }
 }
 
-.history-detail__card {
-  max-width: 90vw;
-  max-height: 90vh;
-  margin: 0 auto;
+.history-detail__player {
+  display: flex;
+  flex-flow: column nowrap;
 
-  width: 100%;
-  height: auto;
+  .history-detail__card {
+    margin: 0 auto;
 
-  @media(orientation: landscape) {
-    height: 100%;
-    width: auto;
+    
+    @media(orientation: landscape) {
+      
+    }
   }
+
+}
+
+.history-detail__status {
+  grid-column: 1 / 5;
+  grid-row: 2 / 3;
+  color: white;
+  font-size: 20px;
 }
