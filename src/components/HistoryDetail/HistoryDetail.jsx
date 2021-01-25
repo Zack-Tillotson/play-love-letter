@@ -32,7 +32,7 @@ function HistoryDetail() {
         <Persona {...player}  status={isPlayerEliminated ? 'out' : 'active'} />
         <Card value={value} isVisible={true} className="history-detail__card" />
         {[3].includes(value) && (
-          <Card value={player.hand[0] === 3 ? player.hand[1] : player.hand[0]} isVisible={isPlayerSelf || isPlayerEliminated || (!targetPlayer.protected && isTargetSelf)} className="history-detail__card" />
+          <Card value={(player.hand[0] === 3 && player.hand.length > 1) ? player.hand[1] : player.hand[0]} isVisible={isPlayerSelf || isPlayerEliminated || (!targetPlayer.protected && isTargetSelf)} className="history-detail__card" />
         )}
       </div>
       {isTargeted && ([(
@@ -43,7 +43,7 @@ function HistoryDetail() {
         <div key="target-cards" className="history-detail__target-player">
           <Persona {...targetPlayer} status={isTargetEliminated ? 'out' : 'active'} />
           {value === 1 && (
-            <Card value={targetCard} isVisible className="history-detail__card" />
+            <Card value={targetCard || 1} isVisible={!!targetCard} className="history-detail__card" />
           )}
           {[2].includes(value) && (
             <Card value={targetPlayer.hand[0]} isVisible={!targetPlayer.protected && isTargetSelf || isPlayerSelf} className="history-detail__card" />
