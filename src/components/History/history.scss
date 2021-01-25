@@ -28,23 +28,24 @@
   border-radius: 8px;
 
   font-size: 10px;
-  background: #666;
+  background: brown;
   color: white;
   text-transform: uppercase;
   word-wrap: unset;
+  font-weight: bolder;
+  text-align: center;
 }
 
 .history__card-played {
   margin-top: 16px;
-  border: solid 1px black;
 }
 
 .history__card-container {
-  height: 30px;
+  height: m#{a}x(30px, 10vh);
   overflow: hidden;
 }
 
-.history__card {
+.history__card, .history__image {
   width: 100%;
   height: auto;
 }

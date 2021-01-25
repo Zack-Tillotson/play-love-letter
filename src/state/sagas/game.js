@@ -65,12 +65,18 @@ function* monitorCardPlays() {
 
 function* handleCardPlay() {
   const {sourceId, isTargettingPlayers, targetPlayer, cardValue, targetCardValue} = (yield select(selector)).cardAction;
-  const {round: {activePlayer}, self, game: {state}, eventQueue} = (yield select(selector));
+  const {round: {activePlayer}, self, game: {state}, eventQueue, players} = (yield select(selector));
 
   const hasRank1TargetCardWhenNeeded = cardValue !== 1 || !!targetCardValue;
 
   if(!hasRank1TargetCardWhenNeeded) {
     yield put(actions.interactionClick('rank-1-select'));
+    return;
+  }
+
+  // TODO don't allow a 5 or 6 to be played if they have a 7 in hand
+  if([5, 6].includes(cardValue) && players.find(player => player.id === activePlayer).hand.includes(7)) {
+    console.log('warning user tried to play a 5 or 6 when they have a 7 in hand');
     return;
   }
 

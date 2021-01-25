@@ -26,7 +26,10 @@ function Status() {
           Start next round
         </button>
       )}
-      {isRoundOver && !isHosting && ' Waiting for host to start next round.'}
+      {isRoundOver && !isGameOver && !isHosting && ' Waiting for host to start next round.'}
+      {isGameOver && (
+        " Game Over!"
+      )}
     </div>
   );
 }

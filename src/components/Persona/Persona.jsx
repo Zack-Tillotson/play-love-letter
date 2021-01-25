@@ -6,16 +6,22 @@ import './persona.scss'
 function Persona({name, score, color, status = 'playing', maxScore = 3, isMini, isTargettable, isTargetted, className}) {
 
   const divClassName = cn(
-      'persona', 
-      className, 
-      {
-        'persona--mini': isMini,
-        'persona--targettable': isTargettable && !isMini, 
-        'persona--targetted': isTargetted && !isMini
-      })
+    'persona', 
+    className, 
+    {
+      'persona--mini': isMini,
+      'persona--targettable': isTargettable && !isMini, 
+      'persona--targetted': isTargetted && !isMini
+    }
+  )
+
+  const style = {}
+  if(status === 'active') {
+    style.backgroundColor = color;
+  }
 
   return (
-    <div className={divClassName} data-target={'' + !!isTargettable} style={{backgroundColor: color}}>
+    <div className={divClassName} data-target={'' + !!isTargettable} style={style}>
       <div className="persona__name">
         {name}
       </div>

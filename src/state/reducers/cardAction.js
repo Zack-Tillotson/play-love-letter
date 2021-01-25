@@ -2,6 +2,7 @@ import types from '../types'
 
 const initialState = {
 	isOpen: false, // See full sized card in detail	
+  isHistoryDetailOpen: false, // See a history play in detail
   isRank1SelectOpen: false, // Select a rank of cards 2-8 to guess target as
 	isTargetting: false, // Dragging to target player
   isTargettingPlayers: false, // Is dragged over player box
@@ -10,6 +11,7 @@ const initialState = {
   targetCardValue: 0, // The value of the card being guessed (used by rank 1)
 	sourceId: '', // DOM element ID taking action
 	currentPosition: null,
+  historyDetail: null,
 }
 
 function cardAction(state = initialState, action) {
@@ -21,15 +23,26 @@ function cardAction(state = initialState, action) {
 					return {
 						...state,
 						isOpen: true,
+            isHistoryDetailOpen: false,
 						cardValue: value,
 					}
 				}
+        case 'active-history-detail': {
+          return {
+            ...state,
+            isOpen: false,
+            isHistoryDetailOpen: true,
+            historyDetail: action.payload.value.data,
+          }
+        }
         case 'card-selection-close': {
           return initialState
         }
         case 'rank-1-select': {
           return {
             ...state,
+            isOpen: false,
+            isHistoryDetailOpen: false,
             isRank1SelectOpen: true,
           }
         }
