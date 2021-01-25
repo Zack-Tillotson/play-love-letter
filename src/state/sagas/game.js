@@ -147,7 +147,7 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
         const isCorrectGuess = !isTargetProtected && targetPlayer.hand.includes(targetCard);
         const cardEffectMessage = `${player.name} guessed ${isCorrectGuess ? 'correctly' : 'wrong'}${isCorrectGuess ? ` ${targetPlayer.name} is eliminated!` : ''}`
 
-        yield put(actions.roundEffect({player, targetPlayer, value, isCorrectGuess, playerEliminated: isCorrectGuess ? player : null, statusMessage: cardEffectMessage}))
+        yield put(actions.roundEffect({player, targetPlayer, value, isCorrectGuess, targetCard, playerEliminated: isCorrectGuess ? targetPlayer : null, statusMessage: cardEffectMessage}))
       }
       break
       case 2: {
@@ -228,10 +228,10 @@ function* handleTurnEnd() {
 
   } else {    
 
-    const currentPlayerIndex = players.findIndex(player => player.id === round.activePlayer);
-    const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    const currentPlayerIndex = activePlayers.findIndex(player => player.id === round.activePlayer);
+    const nextPlayerIndex = (currentPlayerIndex + 1) % activePlayers.length;
 
-    yield handlePlayerInitialization({playerId: players[nextPlayerIndex].id});
+    yield handlePlayerInitialization({playerId: activePlayers[nextPlayerIndex].id});
   }
 }
 

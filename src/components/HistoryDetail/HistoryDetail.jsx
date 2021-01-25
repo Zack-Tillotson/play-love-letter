@@ -12,7 +12,7 @@ import './historyDetail.scss'
 
 function HistoryDetail() {
   const {cardAction: {historyDetail}, self} = useSelector(selector)
-  const {player, value, statusMessage, targetPlayer, isCorrectGuess, playerEliminated} = historyDetail;
+  const {player, value, statusMessage, targetPlayer, targetCard, isCorrectGuess, playerEliminated} = historyDetail;
 
   const dispatch = useDispatch()
 
@@ -36,14 +36,14 @@ function HistoryDetail() {
         )}
       </div>
       {isTargeted && ([(
-        <div className="history-detail__targets">
+        <div key="at-symbol" className="history-detail__targets">
           @
         </div>
         ), (
-        <div className="history-detail__target-player">
+        <div key="target-cards" className="history-detail__target-player">
           <Persona {...targetPlayer} status={isTargetEliminated ? 'out' : 'active'} />
           {value === 1 && (
-            <Card value={targetPlayer.hand[0]} isVisible={!targetPlayer.protected && isTargetSelf || isCorrectGuess} className="history-detail__card" />
+            <Card value={targetCard} isVisible className="history-detail__card" />
           )}
           {[2].includes(value) && (
             <Card value={targetPlayer.hand[0]} isVisible={!targetPlayer.protected && isTargetSelf || isPlayerSelf} className="history-detail__card" />

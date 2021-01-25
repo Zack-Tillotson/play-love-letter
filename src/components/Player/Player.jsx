@@ -67,7 +67,7 @@ function Player({player, className}) {
 
           const cardId = `${player.id}-${index}`
 
-          const isVisible = isSelf;
+          const isVisible = isSelf || round.isRoundOver;
           const isPlayable = isSelf && isActive && !isTargetting
           const isDragging = isTargetting && card === targetValue
           const isValidPlay = isTargetting && card === targetValue && isTargettingPlayers          
