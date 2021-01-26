@@ -26,7 +26,7 @@ const cardImg = {
   8: cardFront8,
 }
 
-function Card({value, isVisible, className, id, style, onClick, onDrag, onDragEnd, ...rest}) {
+function Card({value, isVisible, className, id, style, onClick, onDrag = () => {}, onDragEnd = () => {}, ...rest}) {
 
   const handleClick = () => {
     onClick(value)

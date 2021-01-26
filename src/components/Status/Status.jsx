@@ -26,7 +26,6 @@ function Status() {
           Start next round
         </button>
       )}
-      {isRoundOver && !isGameOver && !isHosting && ' Waiting for host to start next round.'}
       {isGameOver && (
         " Game Over!"
       )}

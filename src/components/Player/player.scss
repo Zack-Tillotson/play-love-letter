@@ -113,8 +113,7 @@
   justify-content: space-around;
   margin: var(--grid-gap) 0;
   position: relative;
-  bottom: -20px;
-
+  
   .card ~ .card {
     margin-left: var(--grid-gap);
   }
@@ -141,6 +140,6 @@
   }
 }
 
-.player__played-cards {
-
+.player__played-card {
+  max-height: 30px;
 }

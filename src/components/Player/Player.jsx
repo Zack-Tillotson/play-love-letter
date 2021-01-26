@@ -45,13 +45,13 @@ function Player({player, className}) {
   return (
     <div key={name} className={cn('player', className, {'player--targetted': isTargettedPlayer, 'player--self': isSelf})} id={`player-${player.id}`}>
       <div className="player__played-cards">
-        {/*playedCards*/[].map((card, index) => (
+        {playedCards.map((card, index) => (
           <Card
             key={index}
             value={card}
             className={`player__played-card`}
-            isVisible={true}
-            style={{left: `calc(var(--card-overhang, 20px) * ${index})`}} />
+            onClick={handleClick}
+            isVisible={true} />
         ))}
       </div>
       <Persona 

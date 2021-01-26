@@ -21,7 +21,7 @@ html {
 }
 
 :root {
-  --card-height: 125px;
-  --card-width: 80px;
+  --card-height: 30vh;
+  --card-width: calc(var(--card-height) * .64);
   --grid-gap: 5px;
 }

@@ -10,6 +10,8 @@ import Persona from '../Persona'
 
 import './historyDetail.scss'
 
+import targetImage from '../../images/target.png'
+
 function HistoryDetail() {
   const {cardAction: {historyDetail}, self} = useSelector(selector)
   const {player, value, statusMessage, targetPlayer, targetCard, isCorrectGuess, playerEliminated} = historyDetail;
@@ -37,7 +39,7 @@ function HistoryDetail() {
       </div>
       {isTargeted && ([(
         <div key="at-symbol" className="history-detail__targets">
-          @
+          <img src={targetImage} alt="is targetting" className="history-detail__target-image" />
         </div>
         ), (
         <div key="target-cards" className="history-detail__target-player">

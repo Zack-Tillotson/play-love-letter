@@ -10,11 +10,6 @@ function withTransitionEndedMeta(action) {
 
 let duration = 750
 
-// xxx game init should only set up playes and such, round init should be where people draw cards.
-// also hook up round 2+ init events
-
-// A game is initialized with players when all players are ready. The
-// result should be the game is set up and the first round starts
 function* implGameInit({players, deck, startPlayer}) {
   yield put(actions.gameReadied(players))
   yield delay(duration)
@@ -152,7 +147,7 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
       break
       case 2: {
         const cardEffectMessage = `${player.name} can look at ${targetPlayer.name}'s hand card`
-        yield put(actions.roundEffect({player, targetPlayer, value, cardEffectMessage}))
+        yield put(actions.roundEffect({player, targetPlayer, value, statusMessage: cardEffectMessage}))
       }
       break
       case 3: {
@@ -188,11 +183,13 @@ function* handleCardEffect({playerId, value, target, targetCard}) {
       }
       break
       case 6: {
-        yield put(actions.roundEffect({player, targetPlayer, value}))
+        let cardEffectMessage = `${player.name} and ${targetPlayer.name} trade hand cards.`
+        yield put(actions.roundEffect({player, targetPlayer, value, statusMessage: cardEffectMessage}))
       }
       break
       case 7: {
-        yield put(actions.roundEffect({player, targetPlayer, value}))  
+        let cardEffectMessage = `${player.name} plays the 7 card.`
+        yield put(actions.roundEffect({player, targetPlayer, value, statusMessage: cardEffectMessage}))
       }
       break
       case 8: {
@@ -213,11 +210,12 @@ function* handleTurnEnd() {
   const {players, round} = yield select(selector);
 
   const activePlayers = players.filter(player => player.status === 'active')
-  const roundIsOver = activePlayers.length <= 1 || round.deck.length <= 1
+  const isDeckEmpty = round.deck.length <= 1
+  const roundIsOver = activePlayers.length <= 1 || isDeckEmpty
 
   if(roundIsOver) {
     const roundWinner = activePlayers.length === 1 ? activePlayers[0] : activePlayers.sort((a, b) => b.hand[0] - a.hand[0])[0]
-    yield put(actions.roundEffect({roundWinner, statusMessage: `${roundWinner.name} won the round!`}))
+    yield put(actions.roundEffect({roundWinner, statusMessage: `${isDeckEmpty ? 'The deck ran out, ' : ''}${roundWinner.name} won the round!`, isDeckEmpty}))
     yield delay(duration)
 
     const highScorer =  (yield select(selector)).players.sort((a, b) => b.score - a.score)[0]
